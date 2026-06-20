@@ -57,7 +57,7 @@ export const apiClient = {
   },
 
   /**
-   * Save a carbon result and its insights to Firestore.
+   * Save a carbon result and its insights to Supabase PostgreSQL.
    * POST /api/entries
    */
   async saveEntry(

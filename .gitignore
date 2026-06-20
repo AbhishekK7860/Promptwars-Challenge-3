@@ -6,6 +6,7 @@ __pycache__/
 .venv/
 venv/
 .env
+.env.local
 *.egg-info/
 dist/
 build/
@@ -30,9 +31,8 @@ frontend/coverage/
 .DS_Store
 Thumbs.db
 
-# Google Cloud credentials (NEVER commit these)
+# Service account keys and credentials (NEVER commit these)
 *.json
-!firebase.json
 !frontend/package.json
 !frontend/package-lock.json
 !frontend/.eslintrc.json
