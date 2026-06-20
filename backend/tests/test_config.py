@@ -6,8 +6,10 @@ from app.core.config import Settings, validate_config
 def test_validate_config_all_present(caplog):
     settings = Settings(
         USE_OPENROUTER=True,
+        USE_GEMINI=True,
         OPENROUTER_API_KEY="test",
         USE_SUPABASE=True,
+        USE_FIRESTORE=True,
         SUPABASE_DB_URL="test"
     )
     with caplog.at_level(logging.INFO):
@@ -17,8 +19,10 @@ def test_validate_config_all_present(caplog):
 def test_validate_config_missing_vars(caplog):
     settings = Settings(
         USE_OPENROUTER=True,
+        USE_GEMINI=True,
         OPENROUTER_API_KEY="",
         USE_SUPABASE=True,
+        USE_FIRESTORE=True,
         SUPABASE_DB_URL=""
     )
     with caplog.at_level(logging.WARNING):
