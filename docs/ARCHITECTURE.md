@@ -1,40 +1,40 @@
 # System Architecture Document
-## Carbon Footprint Awareness Platform
+## ClimateIQ
 
 ---
 
 ## 1. High-Level Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Deployment Stack                     │
-│                                                         │
-│  ┌──────────────┐     ┌──────────────────────────────┐  │
-│  │  Docker      │────►│  OpenRouter (Gemini Flash)   │  │
-│  │  Container   │     └──────────────────────────────┘  │
-│  │              │     ┌──────────────────────────────┐  │
-│  │  FastAPI     │────►│  Supabase PostgreSQL         │  │
-│  │  Backend     │     │  (carbon_entries)            │  │
-│  │              │     └──────────────────────────────┘  │
-│  │              │     ┌──────────────────────────────┐  │
-│  │              │────►│  analytics_events (Postgres) │  │
-│  │              │     └──────────────────────────────┘  │
-│  │              │     ┌──────────────────────────────┐  │
-│  │              │────►│  event_queue (Postgres)      │  │
-│  └──────────────┘     └──────────────────────────────┘  │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  GitHub Actions ──► GHCR ──► Container Host      │   │
-│  │  GitHub Actions ──► Vercel (frontend SPA)        │   │
-│  └──────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
-           ▲
-           │ HTTPS
-           │
-    ┌──────┴──────┐
-    │  Browser    │
-    │  React SPA  │
-    └─────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                    Deployment Stack                     â”‚
+â”‚                                                         â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Docker      â”‚â”€â”€â”€â”€â–ºâ”‚  OpenRouter (Gemini Flash)   â”‚  â”‚
+â”‚  â”‚  Container   â”‚     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚  â”‚              â”‚     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  FastAPI     â”‚â”€â”€â”€â”€â–ºâ”‚  Supabase PostgreSQL         â”‚  â”‚
+â”‚  â”‚  Backend     â”‚     â”‚  (carbon_entries)            â”‚  â”‚
+â”‚  â”‚              â”‚     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚  â”‚              â”‚     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚              â”‚â”€â”€â”€â”€â–ºâ”‚  analytics_events (Postgres) â”‚  â”‚
+â”‚  â”‚              â”‚     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚  â”‚              â”‚     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚              â”‚â”€â”€â”€â”€â–ºâ”‚  event_queue (Postgres)      â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                         â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”   â”‚
+â”‚  â”‚  GitHub Actions â”€â”€â–º GHCR â”€â”€â–º Container Host      â”‚   â”‚
+â”‚  â”‚  GitHub Actions â”€â”€â–º Vercel (frontend SPA)        â”‚   â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜   â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+           â–²
+           â”‚ HTTPS
+           â”‚
+    â”Œâ”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”
+    â”‚  Browser    â”‚
+    â”‚  React SPA  â”‚
+    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -45,20 +45,20 @@
 
 ```
 Stage 1 (node:20-alpine)
-  └── npm ci → npm run build → /app/frontend/dist/
+  â””â”€â”€ npm ci â†’ npm run build â†’ /app/frontend/dist/
 
 Stage 2 (python:3.11-slim)
-  ├── pip install requirements.txt
-  ├── COPY app/ → /app/app/
-  ├── COPY dist/ → /app/static/
-  ├── USER appuser (non-root)
-  └── CMD uvicorn app.main:app --workers 2 --port 8080
+  â”œâ”€â”€ pip install requirements.txt
+  â”œâ”€â”€ COPY app/ â†’ /app/app/
+  â”œâ”€â”€ COPY dist/ â†’ /app/static/
+  â”œâ”€â”€ USER appuser (non-root)
+  â””â”€â”€ CMD uvicorn app.main:app --workers 2 --port 8080
 ```
 
 The single container serves:
-- `GET /api/*` → FastAPI routes
-- `GET /assets/*` → StaticFiles (Vite build)
-- `GET /*` → index.html (SPA fallback)
+- `GET /api/*` â†’ FastAPI routes
+- `GET /assets/*` â†’ StaticFiles (Vite build)
+- `GET /*` â†’ index.html (SPA fallback)
 
 ---
 
@@ -66,23 +66,23 @@ The single container serves:
 
 ```
 Browser POST /api/calculate
-    │
-    ▼
+    â”‚
+    â–¼
 FastAPI: SecurityHeadersMiddleware
-    │
-    ▼
+    â”‚
+    â–¼
 FastAPI: CORSMiddleware
-    │
-    ▼
+    â”‚
+    â–¼
 slowapi: Rate limit check (30/min/IP)
-    │
-    ▼
+    â”‚
+    â–¼
 Pydantic: CarbonInput validation
-    │
-    ▼
-calculator.calculate_footprint() — pure function, no I/O
-    │
-    ▼
+    â”‚
+    â–¼
+calculator.calculate_footprint() â€” pure function, no I/O
+    â”‚
+    â–¼
 Return CarbonResult (JSON)
 ```
 
@@ -92,26 +92,26 @@ Return CarbonResult (JSON)
 
 ```
 Browser POST /api/insights
-    │
-    ▼
+    â”‚
+    â–¼
 FastAPI + slowapi (10/min/IP)
-    │
-    ▼
+    â”‚
+    â–¼
 get_settings(): USE_GEMINI?
-    │
-    ├─ YES ──► vertexai.GenerativeModel.generate_content()
-    │              ├─ SUCCESS → parse JSON → InsightItem[]
-    │              └─ FAIL → GeminiUnavailableError
-    │
-    └─ NO (or FAIL) ──► get_rule_based_insights()
-                              └─ Deterministic rules → InsightItem[]
-    │
-    ▼
+    â”‚
+    â”œâ”€ YES â”€â”€â–º vertexai.GenerativeModel.generate_content()
+    â”‚              â”œâ”€ SUCCESS â†’ parse JSON â†’ InsightItem[]
+    â”‚              â””â”€ FAIL â†’ GeminiUnavailableError
+    â”‚
+    â””â”€ NO (or FAIL) â”€â”€â–º get_rule_based_insights()
+                              â””â”€ Deterministic rules â†’ InsightItem[]
+    â”‚
+    â–¼
 asyncio.create_task():
-    ├── bigquery_service.log_event_async()  ← fire-and-forget
-    └── pubsub_service.publish_insight_request()  ← fire-and-forget
-    │
-    ▼
+    â”œâ”€â”€ bigquery_service.log_event_async()  â† fire-and-forget
+    â””â”€â”€ pubsub_service.publish_insight_request()  â† fire-and-forget
+    â”‚
+    â–¼
 Return InsightsResponse { insights, source, total_potential_saving_kg }
 ```
 
@@ -140,13 +140,13 @@ Return InsightsResponse { insights, source, total_potential_saving_kg }
 
 ### BigQuery: `carbon_analytics.carbon_events`
 ```
-timestamp       TIMESTAMP  — UTC event time
-total_kg        FLOAT64    — total annual footprint
-diet_type       STRING     — dietary pattern
-insight_source  STRING     — "gemini" or "rules"
-top_category    STRING     — highest-emission category
+timestamp       TIMESTAMP  â€” UTC event time
+total_kg        FLOAT64    â€” total annual footprint
+diet_type       STRING     â€” dietary pattern
+insight_source  STRING     â€” "gemini" or "rules"
+top_category    STRING     â€” highest-emission category
 ```
-_Note: No `device_id` — privacy by design._
+_Note: No `device_id` â€” privacy by design._
 
 ### Pub/Sub: `carbon-insights` topic
 ```json
@@ -163,19 +163,19 @@ _Note: No `device_id` — privacy by design._
 
 ```
 Zustand Store
-├── inputs: Partial<CarbonInput>      — form values
-├── result: CarbonResult | null       — latest calculation
-├── insights: InsightsResponse | null — latest insights
-├── history: HistoryEntry[]           — all saved entries
-├── step: 'form' | 'results' | 'history'
-├── isCalculating / isLoadingInsights / isLoadingHistory
-└── error: string | null
+â”œâ”€â”€ inputs: Partial<CarbonInput>      â€” form values
+â”œâ”€â”€ result: CarbonResult | null       â€” latest calculation
+â”œâ”€â”€ insights: InsightsResponse | null â€” latest insights
+â”œâ”€â”€ history: HistoryEntry[]           â€” all saved entries
+â”œâ”€â”€ step: 'form' | 'results' | 'history'
+â”œâ”€â”€ isCalculating / isLoadingInsights / isLoadingHistory
+â””â”€â”€ error: string | null
 
 Actions:
-  calculate(inputs) ──► POST /api/calculate
-  fetchInsights()   ──► POST /api/insights
-  saveEntry()       ──► POST /api/entries
-  fetchHistory()    ──► GET  /api/entries/{device_id}
+  calculate(inputs) â”€â”€â–º POST /api/calculate
+  fetchInsights()   â”€â”€â–º POST /api/insights
+  saveEntry()       â”€â”€â–º POST /api/entries
+  fetchHistory()    â”€â”€â–º GET  /api/entries/{device_id}
 ```
 
 ---
@@ -185,7 +185,7 @@ Actions:
 See [SECURITY_ARCHITECTURE.md](../SECURITY_ARCHITECTURE.md) for full details.
 
 Key controls:
-- **Authentication**: Application Default Credentials (ADC) — no API keys in code
+- **Authentication**: Application Default Credentials (ADC) â€” no API keys in code
 - **Transport**: HTTPS-only via Cloud Run (TLS 1.2+)
 - **Headers**: CSP, HSTS, X-Frame-Options, Permissions-Policy
 - **Input validation**: Pydantic v2 (backend) + Zod (frontend)

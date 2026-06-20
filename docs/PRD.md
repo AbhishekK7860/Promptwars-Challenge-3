@@ -1,5 +1,5 @@
 # Product Requirements Document (PRD)
-## Carbon Footprint Awareness Platform
+## ClimateIQ
 
 **Version**: 1.0.0  
 **Last Updated**: 2024  
@@ -9,7 +9,7 @@
 
 ## 1. Problem Statement
 
-Personal carbon footprints are largely invisible. Despite climate urgency, most individuals lack a fast, science-backed tool to understand their actual emissions and receive concrete, actionable guidance. Generic advice ("fly less", "eat less meat") fails because it doesn't account for individual profiles — a low-income family that rarely flies has very different priorities to a frequent business traveller.
+Personal carbon footprints are largely invisible. Despite climate urgency, most individuals lack a fast, science-backed tool to understand their actual emissions and receive concrete, actionable guidance. Generic advice ("fly less", "eat less meat") fails because it doesn't account for individual profiles â€” a low-income family that rarely flies has very different priorities to a frequent business traveller.
 
 ---
 
@@ -27,26 +27,26 @@ Personal carbon footprints are largely invisible. Despite climate urgency, most 
 
 ```
 Landing Page
-    │
-    ▼
-Carbon Form (4 sections: Transport · Home · Diet · Consumption)
-    │
-    ▼
+    â”‚
+    â–¼
+Carbon Form (4 sections: Transport Â· Home Â· Diet Â· Consumption)
+    â”‚
+    â–¼
 Results Page
-    ├── Total footprint (kg CO2e)
-    ├── vs Global Average (4,000 kg) — visual bar
-    ├── vs Paris Target (2,000 kg) — visual bar
-    └── Category breakdown chart
-    │
-    ▼
-Insights (Gemini AI → rule engine fallback)
-    ├── 3 personalised, quantified actions
-    └── Total potential saving (kg CO2e/year)
-    │
-    ▼
-Save to Firestore → History View
-    ├── Trend line chart
-    └── Detailed history table
+    â”œâ”€â”€ Total footprint (kg CO2e)
+    â”œâ”€â”€ vs Global Average (4,000 kg) â€” visual bar
+    â”œâ”€â”€ vs Paris Target (2,000 kg) â€” visual bar
+    â””â”€â”€ Category breakdown chart
+    â”‚
+    â–¼
+Insights (Gemini AI â†’ rule engine fallback)
+    â”œâ”€â”€ 3 personalised, quantified actions
+    â””â”€â”€ Total potential saving (kg CO2e/year)
+    â”‚
+    â–¼
+Save to Firestore â†’ History View
+    â”œâ”€â”€ Trend line chart
+    â””â”€â”€ Detailed history table
 ```
 
 ---
@@ -55,7 +55,7 @@ Save to Firestore → History View
 
 ### FR-1: Carbon Calculator
 - Accept transport (km/year by vehicle type), home energy (kWh/year), diet type, consumption level
-- Return total kg CO2e with ±5% accuracy relative to published emission factors
+- Return total kg CO2e with Â±5% accuracy relative to published emission factors
 - Show per-category breakdown and percentage contribution
 - Compare to IPCC/DEFRA-cited global average (4,000 kg) and Paris target (2,000 kg)
 
@@ -68,7 +68,7 @@ Save to Firestore → History View
 
 ### FR-3: History Tracking
 - Save calculation snapshots anonymously (device_id only, no PII)
-- Display trend line chart ordered oldest → newest
+- Display trend line chart ordered oldest â†’ newest
 - Display sortable/expandable history table with inline insight viewer
 
 ### FR-4: Privacy & Security
@@ -86,9 +86,9 @@ Save to Firestore → History View
 |----------|-------------|
 | Performance | API p95 response < 500ms (excluding Gemini) |
 | Availability | 99.9% uptime via Cloud Run auto-scaling |
-| Accessibility | WCAG 2.1 AA — tested with axe-core |
+| Accessibility | WCAG 2.1 AA â€” tested with axe-core |
 | Security | OWASP Top 10 mitigated; ADC-only credentials |
-| Test Coverage | ≥80% backend (pytest), ≥80% frontend (vitest) |
+| Test Coverage | â‰¥80% backend (pytest), â‰¥80% frontend (vitest) |
 | Localisation | English (extensible via i18n design) |
 
 ---
@@ -104,7 +104,7 @@ All factors are annual, per-person, in kg CO2e and sourced from peer-reviewed pu
 - **Diet**: Poore & Nemecek (2018) via Our World in Data 2023
 - **Consumption**: IPCC AR6 Working Group 3 Chapter 5 (2023)
 - **Global average benchmark**: Our World in Data 2023 (4,000 kg CO2e/person/year)
-- **Paris 1.5°C target**: IPCC Special Report 1.5°C (2018) → 2,000 kg CO2e/person/year by 2050
+- **Paris 1.5Â°C target**: IPCC Special Report 1.5Â°C (2018) â†’ 2,000 kg CO2e/person/year by 2050
 
 ---
 

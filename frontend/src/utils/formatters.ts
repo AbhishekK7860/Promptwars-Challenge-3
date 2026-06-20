@@ -1,5 +1,5 @@
 /**
- * Formatting utilities for the Carbon Footprint Awareness Platform.
+ * Formatting utilities for the ClimateIQ.
  */
 
 /**
@@ -29,7 +29,7 @@ export const formatCategory = (category: string): string => {
 
 /**
  * Get or create a persistent anonymous device ID stored in sessionStorage.
- * Format: dev-{timestamp}-{random} — satisfies 8–64 char, alphanumeric + hyphens pattern.
+ * Format: dev-{timestamp}-{random} â€” satisfies 8â€“64 char, alphanumeric + hyphens pattern.
  */
 export const getDeviceId = (): string => {
   const key = 'carbon_device_id';
@@ -66,13 +66,13 @@ export const getFootprintLabel = (
  */
 export const getCategoryIcon = (category: string): string => {
   const icons: Record<string, string> = {
-    transport: '🚗',
-    home: '🏠',
-    diet: '🥗',
-    consumption: '🛍️',
-    general: '🌍',
+    transport: 'ðŸš—',
+    home: 'ðŸ ',
+    diet: 'ðŸ¥—',
+    consumption: 'ðŸ›ï¸',
+    general: 'ðŸŒ',
   };
-  return icons[category] ?? '📊';
+  return icons[category] ?? 'ðŸ“Š';
 };
 
 /**

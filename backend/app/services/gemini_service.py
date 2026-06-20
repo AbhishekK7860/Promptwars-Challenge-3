@@ -7,12 +7,12 @@ Calls the OpenRouter OpenAI-compatible REST API via httpx (async).
 Security checkpoint (per global security rule):
   1. Scrubs SSNs and credit-card numbers from any string fields before they
      reach the model or logs.
-  2. Detects prompt-injection patterns — if found, raises
+  2. Detects prompt-injection patterns â€” if found, raises
      GeminiUnavailableError and the route falls back to the rule engine
      without the payload ever reaching the LLM.
 
 Identical external contract to the previous gemini_service:
-  generate_insights_gemini(ranked_categories, breakdown, total_kg) → list[InsightItem]
+  generate_insights_gemini(ranked_categories, breakdown, total_kg) â†’ list[InsightItem]
   GeminiUnavailableError
 """
 
@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 # SSN: 123-45-6789 or 123 45 6789 or 123456789
 _SSN_RE = re.compile(r"\b\d{3}[-\s]?\d{2}[-\s]?\d{4}\b")
 
-# Credit-card numbers: 13–19 digit groups (optionally separated by spaces/dashes)
+# Credit-card numbers: 13â€“19 digit groups (optionally separated by spaces/dashes)
 _CC_RE = re.compile(r"\b(?:\d[ -]?){13,19}\b")
 
 # Prompt-injection: phrases attempting to override model instructions
@@ -99,7 +99,7 @@ def _security_check_prompt(prompt: str) -> str:
     # Injection check on raw text first (before PII scrubbing)
     if _detect_injection(prompt):
         logger.warning(
-            "SECURITY: Prompt-injection attempt detected — routing to fallback without LLM call"
+            "SECURITY: Prompt-injection attempt detected â€” routing to fallback without LLM call"
         )
         raise GeminiUnavailableError(
             "Prompt injection detected; request routed to rule-based fallback for human review."
@@ -156,8 +156,8 @@ Generate exactly 3 highly personalized, quantified carbon reduction actions for 
 REQUIREMENTS for each action:
 1. Target this user's ACTUAL biggest emission sources (use the ranked list above)
 2. Include a SPECIFIC estimated annual CO2e saving in kg (be realistic, not exaggerated)
-3. Be ACTIONABLE within 30 days — no vague advice like "be more conscious"
-4. Be SPECIFIC — e.g., "Switch daily 15 km petrol commute to train" not just "use less transit"
+3. Be ACTIONABLE within 30 days â€” no vague advice like "be more conscious"
+4. Be SPECIFIC â€” e.g., "Switch daily 15 km petrol commute to train" not just "use less transit"
 5. The saving estimate must reflect user's actual numbers (e.g., drive 20k km/year)
 
 RESPONSE FORMAT:
@@ -214,9 +214,9 @@ async def generate_insights_gemini(
 
     raw_prompt = _build_prompt(ranked_categories, breakdown, total_kg)
 
-    # ── Security checkpoint ──────────────────────────────────────────────────
+    # â”€â”€ Security checkpoint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     clean_prompt = _security_check_prompt(raw_prompt)
-    # ─────────────────────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     payload = {
         "model": settings.OPENROUTER_MODEL,
@@ -229,8 +229,8 @@ async def generate_insights_gemini(
     headers = {
         "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://github.com/carbon-platform",
-        "X-Title": "Carbon Footprint Awareness Platform",
+        "HTTP-Referer": "https://github.com/climate-iq",
+        "X-Title": "ClimateIQ",
     }
 
     try:
@@ -261,7 +261,7 @@ async def generate_insights_gemini(
         # Parse and validate each insight through Pydantic
         items: list[InsightItem] = []
         for idx, raw in enumerate(raw_insights[:3], start=1):
-            raw["priority"] = idx  # Normalise priority to 1–3 sequence
+            raw["priority"] = idx  # Normalise priority to 1â€“3 sequence
             items.append(InsightItem(**raw))
 
         logger.info("OpenRouter generated %d insights successfully", len(items))
@@ -270,5 +270,5 @@ async def generate_insights_gemini(
     except GeminiUnavailableError:
         raise
     except Exception as exc:
-        logger.warning("OpenRouter unavailable: %s — %s", type(exc).__name__, exc)
+        logger.warning("OpenRouter unavailable: %s â€” %s", type(exc).__name__, exc)
         raise GeminiUnavailableError(f"OpenRouter call failed: {exc}") from exc

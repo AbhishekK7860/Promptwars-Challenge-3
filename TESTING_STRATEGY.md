@@ -1,5 +1,5 @@
 # Testing Strategy
-## Carbon Footprint Awareness Platform
+## ClimateIQ
 
 ---
 
@@ -7,11 +7,11 @@
 
 | Layer | Framework | Coverage Target | Current |
 |-------|-----------|----------------|---------|
-| Backend unit        | pytest               | ≥90% | ~90% |
-| Backend integration | pytest + TestClient  | ≥90% | ~90% |
-| Frontend unit       | vitest + Testing Library | ≥90% | ~90% |
-| Frontend E2E        | Playwright (planned) | —    | —    |
-| Accessibility | jest-axe (axe-core) | 0 violations | ✅ 0 |
+| Backend unit        | pytest               | â‰¥90% | ~90% |
+| Backend integration | pytest + TestClient  | â‰¥90% | ~90% |
+| Frontend unit       | vitest + Testing Library | â‰¥90% | ~90% |
+| Frontend E2E        | Playwright (planned) | â€”    | â€”    |
+| Accessibility | jest-axe (axe-core) | 0 violations | âœ… 0 |
 
 ---
 
@@ -20,11 +20,11 @@
 ### Test Philosophy
 - **No real GCP calls**: All GCP services disabled via `USE_*=false` environment variables in CI
 - **Fast**: Tests run in <10 seconds total (no network, no I/O)
-- **Deterministic**: Calculator tests use exact arithmetic — no floating point tolerance except where noted
+- **Deterministic**: Calculator tests use exact arithmetic â€” no floating point tolerance except where noted
 
 ### Test Files
 
-#### `test_calculator.py` — Pure function unit tests (9 tests)
+#### `test_calculator.py` â€” Pure function unit tests (9 tests)
 ```
 test_zero_inputs_returns_diet_and_consumption_only
 test_petrol_car_calculation
@@ -37,23 +37,23 @@ test_percentage_in_ranked_categories_sums_to_100
 test_always_returns_exactly_3_insights  (rule engine)
 ```
 
-#### `test_routes.py` — API integration tests (12 tests)
+#### `test_routes.py` â€” API integration tests (12 tests)
 ```
 test_calculate_returns_200
 test_calculate_returns_correct_structure
 test_calculate_breakdown_has_four_categories
-test_calculate_validates_negative_km          → 422
-test_calculate_validates_invalid_diet_type    → 422
-test_calculate_validates_missing_device_id    → 422
+test_calculate_validates_negative_km          â†’ 422
+test_calculate_validates_invalid_diet_type    â†’ 422
+test_calculate_validates_missing_device_id    â†’ 422
 test_calculate_total_kg_is_positive
 test_calculate_ranked_categories_sorted_desc
-test_insights_uses_gemini_when_available      → source=="gemini"
-test_insights_falls_back_to_rules_on_gemini_error → source=="rules"
+test_insights_uses_gemini_when_available      â†’ source=="gemini"
+test_insights_falls_back_to_rules_on_gemini_error â†’ source=="rules"
 test_insights_returns_total_potential_saving
-test_entries_get_invalid_device_id_special_chars → 422
+test_entries_get_invalid_device_id_special_chars â†’ 422
 ```
 
-#### `test_gemini_fallback.py` — Gemini resilience tests (6 tests)
+#### `test_gemini_fallback.py` â€” Gemini resilience tests (6 tests)
 ```
 test_network_error_triggers_unavailable_error
 test_invalid_json_response_triggers_unavailable_error
@@ -63,7 +63,7 @@ test_rule_engine_always_returns_3_insights
 test_rule_engine_insight_for_heavy_meat_eater
 ```
 
-#### `test_validation.py` — Pydantic validation tests (13 tests)
+#### `test_validation.py` â€” Pydantic validation tests (13 tests)
 ```
 test_all_defaults_valid_with_only_device_id
 test_device_id_too_short_raises_validation_error
@@ -110,7 +110,7 @@ PROJECT_ID=test pytest
 
 ### Test Files
 
-#### `accessibility.test.tsx` — WCAG compliance (8 tests)
+#### `accessibility.test.tsx` â€” WCAG compliance (8 tests)
 Each major component is rendered and scanned with `jest-axe`:
 - CarbonForm, CategoryChart, ResultsDisplay, InsightCard, InsightsList, HistoryChart (with data), HistoryChart (empty), HistoryTable
 
@@ -191,5 +191,5 @@ frontend-quality:
 
 docker-build:
   - docker build (runs only after both quality jobs pass)
-  - docker run → curl /api/health (smoke test)
+  - docker run â†’ curl /api/health (smoke test)
 ```

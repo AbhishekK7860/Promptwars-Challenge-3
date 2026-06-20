@@ -41,7 +41,7 @@ jobs:
             --cov-fail-under=90 \
             -v
         env:
-          # Disable all external services — in-memory fallbacks are used
+          # Disable all external services â€” in-memory fallbacks are used
           USE_OPENROUTER: false
           USE_GEMINI: false
           USE_SUPABASE: false
@@ -111,7 +111,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            --tag carbon-platform:${{ github.sha }} \
+            --tag climate-iq:${{ github.sha }} \
             --cache-from type=gha \
             --cache-to type=gha,mode=max \
             .
@@ -130,7 +130,7 @@ jobs:
             -e USE_EVENT_QUEUE=false \
             -e USE_PUBSUB=false \
             -e ENVIRONMENT=test \
-            carbon-platform:${{ github.sha }}
+            climate-iq:${{ github.sha }}
 
           # Wait for the container to be healthy
           echo "Waiting for app to start..."

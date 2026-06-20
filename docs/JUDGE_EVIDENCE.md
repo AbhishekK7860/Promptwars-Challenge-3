@@ -1,4 +1,4 @@
-# Judge Evidence — Carbon Footprint Awareness Platform
+# Judge Evidence â€” ClimateIQ
 
 Evidence mapping for each evaluation criterion.
 
@@ -8,15 +8,15 @@ Evidence mapping for each evaluation criterion.
 
 | Evidence | Location |
 |----------|----------|
-| TypeScript strict mode | `frontend/tsconfig.json` — `"strict": true`, `noUnusedLocals`, `noUnusedParameters` |
+| TypeScript strict mode | `frontend/tsconfig.json` â€” `"strict": true`, `noUnusedLocals`, `noUnusedParameters` |
 | Python type hints throughout | All `backend/app/**/*.py` files use `from __future__ import annotations` |
 | Ruff linting (E, F, I, N, W, UP) | `backend/pyproject.toml` |
 | ESLint + Prettier | `frontend/package.json` scripts |
-| Pure functions (no side effects) | `backend/app/carbon/calculator.py` — zero I/O, fully testable |
-| Separation of concerns | Routes → Services → Models → Carbon engine (clear dependency direction) |
-| Pydantic v2 models | `backend/app/models/carbon.py`, `insights.py` — field descriptions, ge/le constraints |
+| Pure functions (no side effects) | `backend/app/carbon/calculator.py` â€” zero I/O, fully testable |
+| Separation of concerns | Routes â†’ Services â†’ Models â†’ Carbon engine (clear dependency direction) |
+| Pydantic v2 models | `backend/app/models/carbon.py`, `insights.py` â€” field descriptions, ge/le constraints |
 | Zustand store (minimal, focused) | `frontend/src/store/carbonStore.ts` |
-| Emission factors with citations | `backend/app/carbon/factors.py` — every constant has inline source URL |
+| Emission factors with citations | `backend/app/carbon/factors.py` â€” every constant has inline source URL |
 
 ---
 
@@ -24,16 +24,16 @@ Evidence mapping for each evaluation criterion.
 
 | Evidence | Location |
 |----------|----------|
-| OWASP security headers (CSP, HSTS, X-Frame-Options, Permissions-Policy) | `backend/app/core/security.py` — `SecurityHeadersMiddleware` |
-| Rate limiting (slowapi) | `backend/app/core/rate_limit.py` — 30/10/20 per minute per endpoint |
-| Input validation (Pydantic v2) | `backend/app/models/carbon.py` — ge=0, le=100000, pattern regex |
-| Input validation (Zod, frontend) | `frontend/src/utils/validators.ts` — mirrors backend constraints |
+| OWASP security headers (CSP, HSTS, X-Frame-Options, Permissions-Policy) | `backend/app/core/security.py` â€” `SecurityHeadersMiddleware` |
+| Rate limiting (slowapi) | `backend/app/core/rate_limit.py` â€” 30/10/20 per minute per endpoint |
+| Input validation (Pydantic v2) | `backend/app/models/carbon.py` â€” ge=0, le=100000, pattern regex |
+| Input validation (Zod, frontend) | `frontend/src/utils/validators.ts` â€” mirrors backend constraints |
 | No PII stored | BigQuery logs never include device_id (`backend/app/services/bigquery_service.py`) |
-| device_id format validation | `backend/app/core/security.py` → `validate_device_id()` |
-| Firestore security rules | `firestore.rules` — create-only, field validation, size limits |
-| Application Default Credentials | No API keys in code — Vertex AI, Firestore use ADC |
-| Non-root Docker user | `Dockerfile` — `USER appuser` |
-| CORS restricted | `backend/app/main.py` — only localhost:5173 in dev |
+| device_id format validation | `backend/app/core/security.py` â†’ `validate_device_id()` |
+| Firestore security rules | `firestore.rules` â€” create-only, field validation, size limits |
+| Application Default Credentials | No API keys in code â€” Vertex AI, Firestore use ADC |
+| Non-root Docker user | `Dockerfile` â€” `USER appuser` |
+| CORS restricted | `backend/app/main.py` â€” only localhost:5173 in dev |
 
 ---
 
@@ -45,9 +45,9 @@ Evidence mapping for each evaluation criterion.
 | Fire-and-forget Pub/Sub | `asyncio.create_task()` in `backend/app/routes/insights.py` |
 | Thread-pool for sync GCP SDKs | `run_in_executor(None, ...)` in firestore, bigquery, pubsub services |
 | Gemini hard timeout (15s) | `asyncio.wait_for(..., timeout=15.0)` in gemini_service.py |
-| Vite manual chunk splitting | `frontend/vite.config.ts` — vendor/charts/store chunks |
-| React.StrictMode | `frontend/src/main.tsx` — catches double-render issues in dev |
-| lru_cache for settings | `backend/app/core/config.py` → `@lru_cache(maxsize=1)` |
+| Vite manual chunk splitting | `frontend/vite.config.ts` â€” vendor/charts/store chunks |
+| React.StrictMode | `frontend/src/main.tsx` â€” catches double-render issues in dev |
+| lru_cache for settings | `backend/app/core/config.py` â†’ `@lru_cache(maxsize=1)` |
 | Zustand (minimal re-renders) | Selector-based subscriptions in all components |
 | Recharts (canvas-based rendering) | SVG charts with ResponsiveContainer for fluid layout |
 
@@ -57,16 +57,16 @@ Evidence mapping for each evaluation criterion.
 
 | Evidence | Location |
 |----------|----------|
-| 29 backend tests | `backend/tests/` — 4 test files, all passing with USE_*=false |
-| Calculator unit tests (pure) | `backend/tests/test_calculator.py` — 9 tests |
-| Route integration tests | `backend/tests/test_routes.py` — 12 tests |
-| Gemini fallback tests | `backend/tests/test_gemini_fallback.py` — 6 tests |
-| Pydantic validation tests | `backend/tests/test_validation.py` — 13 tests |
+| 29 backend tests | `backend/tests/` â€” 4 test files, all passing with USE_*=false |
+| Calculator unit tests (pure) | `backend/tests/test_calculator.py` â€” 9 tests |
+| Route integration tests | `backend/tests/test_routes.py` â€” 12 tests |
+| Gemini fallback tests | `backend/tests/test_gemini_fallback.py` â€” 6 tests |
+| Pydantic validation tests | `backend/tests/test_validation.py` â€” 13 tests |
 | Frontend component tests | `frontend/tests/CarbonForm.test.tsx`, `ResultsDisplay.test.tsx`, `InsightsList.test.tsx` |
-| API client tests | `frontend/tests/api.test.ts` — fetch mocking, error paths |
-| Accessibility tests (axe-core) | `frontend/tests/accessibility.test.tsx` — every major component |
-| ≥80% coverage threshold | `backend/pyproject.toml` → `fail_under = 80` |
-| Coverage in CI | `.github/workflows/ci.yml` — codecov upload step |
+| API client tests | `frontend/tests/api.test.ts` â€” fetch mocking, error paths |
+| Accessibility tests (axe-core) | `frontend/tests/accessibility.test.tsx` â€” every major component |
+| â‰¥80% coverage threshold | `backend/pyproject.toml` â†’ `fail_under = 80` |
+| Coverage in CI | `.github/workflows/ci.yml` â€” codecov upload step |
 
 ---
 
@@ -76,8 +76,8 @@ Evidence mapping for each evaluation criterion.
 |----------|----------|
 | Skip-to-main-content link | `frontend/src/components/shared/SkipLink.tsx`, `frontend/index.html` |
 | All inputs have `<label htmlFor>` | `frontend/src/components/Calculator/CarbonForm.tsx` |
-| `aria-describedby` for helper text + errors | CarbonForm.tsx — every input field |
-| Radio group: `<fieldset>` + `<legend>` | CarbonForm.tsx — diet_type section |
+| `aria-describedby` for helper text + errors | CarbonForm.tsx â€” every input field |
+| Radio group: `<fieldset>` + `<legend>` | CarbonForm.tsx â€” diet_type section |
 | Validation errors: `role="alert"` + `aria-live="polite"` | CarbonForm.tsx |
 | Submit button: `aria-busy` during loading | CarbonForm.tsx |
 | Charts: `role="img"` + screen reader table | CategoryChart.tsx, HistoryChart.tsx |
@@ -115,7 +115,7 @@ Evidence mapping for each evaluation criterion.
 | **Understand**: Calculates footprint | Carbon calculator with 4 categories, scientific emission factors |
 | **Understand**: Compares to benchmarks | vs Global Average (4,000 kg) + vs Paris Target (2,000 kg) with visual bars |
 | **Track**: Saves history | Firestore persistence + trend line chart + history table |
-| **Track**: Shows progress | HistoryChart trend line with oldest→newest ordering |
+| **Track**: Shows progress | HistoryChart trend line with oldestâ†’newest ordering |
 | **Reduce**: AI-powered insights | Gemini 1.5 Flash generates 3 quantified, personalised actions |
 | **Reduce**: Targets biggest emitters | Insights ranked by user's actual emission profile |
 | **Reduce**: Quantified savings | Every insight has estimated_saving_kg and total_potential_saving_kg |

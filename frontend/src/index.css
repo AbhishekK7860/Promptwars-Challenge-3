@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Carbon Footprint Awareness Platform — Global Styles
+   ClimateIQ â€” Global Styles
    Uses Tailwind CSS as the utility foundation.
    Custom classes below handle skip links, focus rings, and typography.
    ========================================================================== */
@@ -53,7 +53,7 @@
 
 /* --------------------------------------------------------------------------
    Skip Link
-   WCAG 2.1 Success Criterion 2.4.1 — Bypass Blocks
+   WCAG 2.1 Success Criterion 2.4.1 â€” Bypass Blocks
    -------------------------------------------------------------------------- */
 @layer components {
   .skip-link {
@@ -77,7 +77,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Recharts — ensure no SVG elements interfere with focus management
+   Recharts â€” ensure no SVG elements interfere with focus management
    -------------------------------------------------------------------------- */
 .recharts-wrapper {
   outline: none !important;
@@ -95,7 +95,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Print styles — strip chrome, show only content
+   Print styles â€” strip chrome, show only content
    -------------------------------------------------------------------------- */
 @media print {
   header,

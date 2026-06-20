@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript interfaces for the Carbon Footprint Awareness Platform.
+ * Shared TypeScript interfaces for the ClimateIQ.
  * These mirror the Pydantic v2 models on the backend exactly.
  */
 

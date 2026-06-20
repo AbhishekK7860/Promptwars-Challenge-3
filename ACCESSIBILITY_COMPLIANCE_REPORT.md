@@ -1,9 +1,9 @@
 # Accessibility Compliance Report
-## Carbon Footprint Awareness Platform
+## ClimateIQ
 
 **Standard**: WCAG 2.1 Level AA  
 **Testing Tools**: jest-axe (axe-core 4.x), manual keyboard testing  
-**Status**: ✅ Compliant
+**Status**: âœ… Compliant
 
 ---
 
@@ -13,14 +13,14 @@ All 7 major components pass zero-violation axe-core scans:
 
 | Component | Test File | Result |
 |-----------|-----------|--------|
-| CarbonForm | `accessibility.test.tsx` | ✅ 0 violations |
-| CategoryChart | `accessibility.test.tsx` | ✅ 0 violations |
-| ResultsDisplay | `accessibility.test.tsx` | ✅ 0 violations |
-| InsightCard | `accessibility.test.tsx` | ✅ 0 violations |
-| InsightsList | `accessibility.test.tsx` | ✅ 0 violations |
-| HistoryChart (with data) | `accessibility.test.tsx` | ✅ 0 violations |
-| HistoryChart (empty) | `accessibility.test.tsx` | ✅ 0 violations |
-| HistoryTable | `accessibility.test.tsx` | ✅ 0 violations |
+| CarbonForm | `accessibility.test.tsx` | âœ… 0 violations |
+| CategoryChart | `accessibility.test.tsx` | âœ… 0 violations |
+| ResultsDisplay | `accessibility.test.tsx` | âœ… 0 violations |
+| InsightCard | `accessibility.test.tsx` | âœ… 0 violations |
+| InsightsList | `accessibility.test.tsx` | âœ… 0 violations |
+| HistoryChart (with data) | `accessibility.test.tsx` | âœ… 0 violations |
+| HistoryChart (empty) | `accessibility.test.tsx` | âœ… 0 violations |
+| HistoryTable | `accessibility.test.tsx` | âœ… 0 violations |
 
 ---
 
@@ -34,8 +34,8 @@ All 7 major components pass zero-violation axe-core scans:
 | 1.3.1 Info and Relationships | `<label>` + `htmlFor`; `<fieldset>` + `<legend>`; `<th scope>` on table headers |
 | 1.3.2 Meaningful Sequence | DOM order matches visual order; no CSS reordering |
 | 1.3.3 Sensory Characteristics | Status conveyed via text labels, not color alone |
-| 1.4.1 Use of Color | Error states use both color + icon (⚠) + text; benchmark bars use color + percentage text |
-| 1.4.3 Contrast (Minimum) | Primary green (#16a34a) on white: 4.7:1 ✅; text/bg combinations all ≥4.5:1 |
+| 1.4.1 Use of Color | Error states use both color + icon (âš ) + text; benchmark bars use color + percentage text |
+| 1.4.3 Contrast (Minimum) | Primary green (#16a34a) on white: 4.7:1 âœ…; text/bg combinations all â‰¥4.5:1 |
 | 1.4.4 Resize Text | Responsive layout; relative font units (rem/em) |
 | 1.4.10 Reflow | Single-column layout at 320px viewport width |
 | 1.4.11 Non-text Contrast | Form borders, progress bars meet 3:1 minimum |
@@ -48,7 +48,7 @@ All 7 major components pass zero-violation axe-core scans:
 | 2.1.1 Keyboard | All interactive elements keyboard-focusable; no keyboard traps |
 | 2.1.2 No Keyboard Trap | Focus can always escape modals and expanded sections |
 | 2.4.1 Bypass Blocks | Skip-to-main-content link (`SkipLink.tsx` + `index.html`) |
-| 2.4.2 Page Titled | `<title>Carbon Footprint Awareness Platform</title>` |
+| 2.4.2 Page Titled | `<title>ClimateIQ</title>` |
 | 2.4.3 Focus Order | Logical tab order follows DOM structure |
 | 2.4.4 Link Purpose | All buttons/links have descriptive `aria-label` where needed |
 | 2.4.6 Headings and Labels | Single `<h1>` per view; logical `<h2>`, `<h3>` hierarchy |
@@ -63,7 +63,7 @@ All 7 major components pass zero-violation axe-core scans:
 | 3.2.2 On Input | Form submission only on explicit button click |
 | 3.3.1 Error Identification | Zod validation errors displayed with field association via `aria-describedby` |
 | 3.3.2 Labels or Instructions | Helper text spans linked via `aria-describedby`; radio group has `<legend>` description |
-| 3.3.3 Error Suggestion | Specific error messages: "must be at least 8 characters", "must be ≥ 0" |
+| 3.3.3 Error Suggestion | Specific error messages: "must be at least 8 characters", "must be â‰¥ 0" |
 | 3.3.4 Error Prevention | Client-side Zod validation before API submission |
 
 ### Robust

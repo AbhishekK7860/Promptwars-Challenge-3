@@ -1,16 +1,16 @@
 /**
- * Zustand store for the Carbon Footprint Awareness Platform.
+ * Zustand store for the ClimateIQ.
  *
  * State shape:
- *   inputs          — Partial CarbonInput being edited in the form
- *   result          — Latest CarbonResult from the API
- *   insights        — Latest InsightsResponse from the API
- *   history         — Array of HistoryEntry objects for the current device
- *   isCalculating   — True while /api/calculate is in-flight
- *   isLoadingInsights — True while /api/insights is in-flight
- *   isLoadingHistory  — True while /api/entries GET is in-flight
- *   error           — User-facing error message or null
- *   step            — Current view: 'form' | 'results' | 'history'
+ *   inputs          â€” Partial CarbonInput being edited in the form
+ *   result          â€” Latest CarbonResult from the API
+ *   insights        â€” Latest InsightsResponse from the API
+ *   history         â€” Array of HistoryEntry objects for the current device
+ *   isCalculating   â€” True while /api/calculate is in-flight
+ *   isLoadingInsights â€” True while /api/insights is in-flight
+ *   isLoadingHistory  â€” True while /api/entries GET is in-flight
+ *   error           â€” User-facing error message or null
+ *   step            â€” Current view: 'form' | 'results' | 'history'
  */
 
 import { create } from 'zustand';
@@ -96,7 +96,7 @@ export const useCarbonStore = create<CarbonState>((set, get) => ({
     try {
       await apiClient.saveEntry(result, insights.insights);
     } catch (err) {
-      // Non-critical — log but don't surface to user
+      // Non-critical â€” log but don't surface to user
     }
   },
 

@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     # Backward-compatible alias: USE_GEMINI maps to USE_OPENROUTER
     USE_GEMINI: bool = Field(
         default=True,
-        description="Alias for USE_OPENROUTER — kept for CI compatibility",
+        description="Alias for USE_OPENROUTER â€” kept for CI compatibility",
     )
     USE_SUPABASE: bool = Field(
         default=True,
@@ -77,7 +77,7 @@ class Settings(BaseSettings):
     # Backward-compatible alias: USE_FIRESTORE maps to USE_SUPABASE
     USE_FIRESTORE: bool = Field(
         default=True,
-        description="Alias for USE_SUPABASE — kept for CI compatibility",
+        description="Alias for USE_SUPABASE â€” kept for CI compatibility",
     )
     USE_ANALYTICS: bool = Field(
         default=True,
@@ -86,7 +86,7 @@ class Settings(BaseSettings):
     # Backward-compatible alias: USE_BIGQUERY maps to USE_ANALYTICS
     USE_BIGQUERY: bool = Field(
         default=True,
-        description="Alias for USE_ANALYTICS — kept for CI compatibility",
+        description="Alias for USE_ANALYTICS â€” kept for CI compatibility",
     )
     USE_EVENT_QUEUE: bool = Field(
         default=True,
@@ -95,7 +95,7 @@ class Settings(BaseSettings):
     # Backward-compatible alias: USE_PUBSUB maps to USE_EVENT_QUEUE
     USE_PUBSUB: bool = Field(
         default=True,
-        description="Alias for USE_EVENT_QUEUE — kept for CI compatibility",
+        description="Alias for USE_EVENT_QUEUE â€” kept for CI compatibility",
     )
 
     # -----------------------------------------------------------------------
@@ -177,9 +177,9 @@ def validate_config(settings: Settings | None = None) -> None:
 
     if issues:
         logger.info(
-            "Carbon Platform: %d config warning(s). "
+            "ClimateIQ: %d config warning(s). "
             "Set USE_OPENROUTER=false and USE_SUPABASE=false for local dev without credentials.",
             len(issues),
         )
     else:
-        logger.info("Carbon Platform: configuration validated successfully.")
+        logger.info("ClimateIQ: configuration validated successfully.")

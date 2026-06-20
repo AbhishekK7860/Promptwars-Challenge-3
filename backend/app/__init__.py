@@ -1,1 +1,1 @@
-"""Carbon Footprint Awareness Platform — backend application package."""
+"""ClimateIQ â€” backend application package."""

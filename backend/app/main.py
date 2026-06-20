@@ -1,5 +1,5 @@
 """
-Carbon Footprint Awareness Platform — FastAPI application entry point.
+ClimateIQ â€” FastAPI application entry point.
 
 Architecture:
   - SecurityHeadersMiddleware: OWASP security headers on every response
@@ -32,11 +32,11 @@ from app.routes import calculate, entries, health, insights
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Application lifespan handler — validate config and configure logging on startup."""
+    """Application lifespan handler â€” validate config and configure logging on startup."""
     settings = get_settings()
     logging.basicConfig(
         level=getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO),
-        format="%(asctime)s %(levelname)s %(name)s — %(message)s",
+        format="%(asctime)s %(levelname)s %(name)s â€” %(message)s",
     )
     _log = logging.getLogger(__name__)
 
@@ -44,20 +44,20 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     validate_config(settings)
 
     _log.info(
-        "Carbon Platform starting up (env=%s, openrouter=%s, supabase=%s)",
+        "ClimateIQ starting up (env=%s, openrouter=%s, supabase=%s)",
         settings.ENVIRONMENT,
         settings.ai_enabled,
         settings.db_enabled,
     )
     yield
-    logging.getLogger(__name__).info("Carbon Platform shutting down")
+    logging.getLogger(__name__).info("ClimateIQ shutting down")
 
 
 # ---------------------------------------------------------------------------
 # FastAPI application
 # ---------------------------------------------------------------------------
 app = FastAPI(
-    title="Carbon Footprint Awareness Platform",
+    title="ClimateIQ",
     description=(
         "Understand, track, and reduce your personal carbon footprint "
         "with AI-powered insights via OpenRouter."
@@ -70,13 +70,13 @@ app = FastAPI(
 )
 
 # ---------------------------------------------------------------------------
-# Middleware (order matters — outer middleware wraps inner)
+# Middleware (order matters â€” outer middleware wraps inner)
 # ---------------------------------------------------------------------------
 
-# 1. Security headers (outermost — applied to every response)
+# 1. Security headers (outermost â€” applied to every response)
 app.add_middleware(SecurityHeadersMiddleware)
 
-# 2. CORS — allow the Vite dev server in development
+# 2. CORS â€” allow the Vite dev server in development
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://localhost:3000"],
@@ -100,7 +100,7 @@ app.include_router(insights.router, prefix="/api")
 app.include_router(entries.router, prefix="/api")
 
 # ---------------------------------------------------------------------------
-# Serve compiled React SPA (production only — frontend build must exist)
+# Serve compiled React SPA (production only â€” frontend build must exist)
 # ---------------------------------------------------------------------------
 _static_path = os.path.join(os.path.dirname(__file__), "..", "static")
 _assets_path = os.path.join(_static_path, "assets")
