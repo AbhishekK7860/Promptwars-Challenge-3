@@ -7,11 +7,10 @@ on:
 
 jobs:
   # ===========================================================================
-  # Frontend → Vercel
-  # Requires secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+  # Frontend Build Verification
   # ===========================================================================
-  deploy-frontend:
-    name: Deploy Frontend → Vercel
+  build-frontend:
+    name: Build Frontend
     runs-on: ubuntu-latest
     environment: production
 
@@ -31,15 +30,6 @@ jobs:
         run: cd frontend && npm run build
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
 
   # ===========================================================================
   # Backend → GitHub Container Registry (GHCR)

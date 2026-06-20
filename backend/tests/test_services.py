@@ -17,11 +17,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from app.core.config import Settings
 from app.models.carbon import CarbonResult
 from app.models.insights import InsightItem
-from app.services import analytics_service, event_queue_service, supabase_service
-from app.services import gemini_service
+from app.services import analytics_service, event_queue_service, gemini_service, supabase_service
 from app.services.gemini_service import GeminiUnavailableError
 
 # ---------------------------------------------------------------------------

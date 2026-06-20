@@ -133,15 +133,12 @@ docker push ghcr.io/your-org/climate-iq:latest
 ### GitHub Actions (CI + Deploy)
 
 The `.github/workflows/` directory contains:
-- `ci.yml` â€” lint, typecheck, test, coverage, Docker build + health check
-- `deploy.yml` â€” frontend to Vercel, backend image to GHCR
+- `ci.yml` — lint, typecheck, test, coverage, Docker build + health check
+- `deploy.yml` — frontend build verification, backend image to GHCR
 
 Required GitHub secrets:
 | Secret | Purpose |
 |---|---|
-| `VERCEL_TOKEN` | Vercel deploy token |
-| `VERCEL_ORG_ID` | Vercel organisation ID |
-| `VERCEL_PROJECT_ID` | Vercel project ID |
 | `VITE_API_BASE_URL` | Backend API URL for frontend build |
 
 ---

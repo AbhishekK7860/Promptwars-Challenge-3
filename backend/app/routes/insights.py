@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Literal, cast, get_type_hints
+from typing import Literal, get_type_hints
 
 from fastapi import APIRouter, Request
 

@@ -64,5 +64,5 @@ router.add_api_route(
     methods=["GET"],
     response_model=HealthResponse,
     summary="Application health check",
-    description="Returns service availability status. Used by Vercel and container readiness probes.",
+    description="Returns service availability status. Used by container readiness probes.",
 )

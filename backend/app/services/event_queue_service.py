@@ -80,7 +80,7 @@ async def publish_insight_request(
             top_category,
         )
 
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning(
             "Event queue publish failed (non-critical): %s — %s",
             type(exc).__name__,
@@ -138,7 +138,6 @@ async def process_pending_events(batch_size: int = 10) -> int:
                 try:
                     # Placeholder: route to appropriate handler by event_type
                     event_type = row["event_type"]
-                    payload = row["payload"]
                     logger.debug("Processing event %s type=%s", row["id"], event_type)
 
                     # Mark done
@@ -152,7 +151,7 @@ async def process_pending_events(batch_size: int = 10) -> int:
                     )
                     processed += 1
 
-                except Exception as inner_exc:
+                except Exception as inner_exc:  # noqa: BLE001
                     logger.warning(
                         "Event %s processing failed: %s — %s",
                         row["id"],
@@ -164,7 +163,7 @@ async def process_pending_events(batch_size: int = 10) -> int:
                         row["id"],
                     )
 
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning(
             "Event queue processor error (non-critical): %s — %s",
             type(exc).__name__,

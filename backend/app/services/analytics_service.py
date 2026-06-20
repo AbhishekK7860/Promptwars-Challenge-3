@@ -16,11 +16,7 @@ Identical external contract to the previous bigquery_service:
 
 from __future__ import annotations
 
-import json
 import logging
-from datetime import UTC, datetime
-
-import asyncpg
 
 from app.core.config import get_settings
 
@@ -85,7 +81,7 @@ async def log_event_async(
             top_category,
         )
 
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning(
             "Analytics logging failed (non-critical): %s — %s",
             type(exc).__name__,
@@ -134,7 +130,7 @@ async def log_recommendation(
                 priority,
             )
 
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning(
             "Recommendation log failed (non-critical): %s — %s",
             type(exc).__name__,
@@ -176,7 +172,7 @@ async def query_top_categories(limit: int = 10) -> list[dict]:
                 limit,
             )
         return [dict(r) for r in rows]
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning("Analytics query failed: %s — %s", type(exc).__name__, exc)
         return []
 
@@ -210,6 +206,6 @@ async def query_avg_footprint_by_diet() -> list[dict]:
                 """
             )
         return [dict(r) for r in rows]
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.warning("Analytics query failed: %s — %s", type(exc).__name__, exc)
         return []
