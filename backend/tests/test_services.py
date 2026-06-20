@@ -152,10 +152,10 @@ class TestSupabaseServiceIntegration:
     @pytest.mark.asyncio
     async def test_supabase_save_entry_success(self):
         """save_entry should execute INSERT and return UUID string."""
-        mock_pool = AsyncMock()
+        mock_pool = MagicMock()
         mock_conn = AsyncMock()
-        mock_pool.acquire.return_value.__aenter__ = AsyncMock(return_value=mock_conn)
-        mock_pool.acquire.return_value.__aexit__ = AsyncMock(return_value=False)
+        mock_pool.acquire.return_value.__aenter__.return_value = mock_conn
+        mock_pool.acquire.return_value.__aexit__.return_value = False
         mock_conn.fetchrow = AsyncMock(return_value={"id": "mock-uuid-123"})
 
         with patch("app.services.supabase_service._get_pool", return_value=mock_pool):
@@ -173,10 +173,10 @@ class TestSupabaseServiceIntegration:
         """get_history should return a list of entry dicts from DB rows."""
         from datetime import UTC, datetime
 
-        mock_pool = AsyncMock()
+        mock_pool = MagicMock()
         mock_conn = AsyncMock()
-        mock_pool.acquire.return_value.__aenter__ = AsyncMock(return_value=mock_conn)
-        mock_pool.acquire.return_value.__aexit__ = AsyncMock(return_value=False)
+        mock_pool.acquire.return_value.__aenter__.return_value = mock_conn
+        mock_pool.acquire.return_value.__aexit__.return_value = False
 
         mock_row = dict(
             id="doc-1",
@@ -219,7 +219,7 @@ class TestAnalyticsService:
         with (
             patch("app.services.analytics_service.get_settings", return_value=mock_settings),
             patch(
-                "app.services.analytics_service._get_pool",
+                "app.services.supabase_service._get_pool",
                 side_effect=Exception("DB failure"),
             ),
         ):
@@ -252,14 +252,14 @@ class TestAnalyticsService:
         mock_settings = MagicMock()
         mock_settings.SUPABASE_DB_URL = "postgresql://test"
 
-        mock_pool = AsyncMock()
+        mock_pool = MagicMock()
         mock_conn = AsyncMock()
-        mock_pool.acquire.return_value.__aenter__ = AsyncMock(return_value=mock_conn)
-        mock_pool.acquire.return_value.__aexit__ = AsyncMock(return_value=False)
+        mock_pool.acquire.return_value.__aenter__.return_value = mock_conn
+        mock_pool.acquire.return_value.__aexit__.return_value = False
 
         with (
             patch("app.services.analytics_service.get_settings", return_value=mock_settings),
-            patch("app.services.analytics_service._get_pool", return_value=mock_pool),
+            patch("app.services.supabase_service._get_pool", return_value=mock_pool),
         ):
             await analytics_service.log_event_async(
                 total_kg=5000.0, diet_type="vegan", insight_source="rules", top_category="home"
@@ -286,7 +286,7 @@ class TestEventQueueService:
                 "app.services.event_queue_service.get_settings", return_value=mock_settings
             ),
             patch(
-                "app.services.event_queue_service._get_pool",
+                "app.services.supabase_service._get_pool",
                 side_effect=Exception("Queue DB down"),
             ),
         ):
@@ -317,17 +317,17 @@ class TestEventQueueService:
         mock_settings = MagicMock()
         mock_settings.SUPABASE_DB_URL = "postgresql://test"
 
-        mock_pool = AsyncMock()
+        mock_pool = MagicMock()
         mock_conn = AsyncMock()
-        mock_pool.acquire.return_value.__aenter__ = AsyncMock(return_value=mock_conn)
-        mock_pool.acquire.return_value.__aexit__ = AsyncMock(return_value=False)
+        mock_pool.acquire.return_value.__aenter__.return_value = mock_conn
+        mock_pool.acquire.return_value.__aexit__.return_value = False
         mock_conn.fetchrow = AsyncMock(return_value={"id": 42})
 
         with (
             patch(
                 "app.services.event_queue_service.get_settings", return_value=mock_settings
             ),
-            patch("app.services.event_queue_service._get_pool", return_value=mock_pool),
+            patch("app.services.supabase_service._get_pool", return_value=mock_pool),
         ):
             await event_queue_service.publish_insight_request(
                 footprint_total=5000.0, top_category="home"

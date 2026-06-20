@@ -66,13 +66,13 @@ export const getFootprintLabel = (
  */
 export const getCategoryIcon = (category: string): string => {
   const icons: Record<string, string> = {
-    transport: 'ðŸš—',
-    home: 'ðŸ ',
-    diet: 'ðŸ¥—',
-    consumption: 'ðŸ›ï¸',
-    general: 'ðŸŒ',
+    transport: '🚗',
+    home: '🏠',
+    diet: '🥗',
+    consumption: '🛍️',
+    general: '🌍',
   };
-  return icons[category] ?? 'ðŸ“Š';
+  return icons[category] ?? '📊';
 };
 
 /**

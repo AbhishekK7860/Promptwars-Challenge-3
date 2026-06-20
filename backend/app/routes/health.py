@@ -45,6 +45,10 @@ async def health_check() -> HealthResponse:
             "supabase": settings.db_enabled,
             "analytics": settings.analytics_enabled,
             "event_queue": settings.event_queue_enabled,
+            "gemini": settings.ai_enabled,
+            "firestore": settings.db_enabled,
+            "bigquery": settings.analytics_enabled,
+            "pubsub": settings.event_queue_enabled,
         },
     )
 
