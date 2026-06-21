@@ -19,15 +19,15 @@ Run: `cd backend && ruff check .`
 - Pydantic v2 models provide runtime type enforcement at API boundaries
 
 ### Architecture Patterns
-- **Pure functions**: `app/carbon/calculator.py` contains zero side effects â€” fully deterministic, no I/O
-- **Dependency direction**: Routes â†’ Services â†’ Models (never reverse)
+- **Pure functions**: `app/carbon/calculator.py` contains zero side effects — fully deterministic, no I/O
+- **Dependency direction**: Routes → Services → Models (never reverse)
 - **Service toggle**: Feature flags (`USE_GEMINI`, `USE_FIRESTORE`, etc.) enable local dev without GCP
-- **Fallback chain**: Gemini â†’ Rule engine (graceful degradation)
-- **Fire-and-forget**: Analytics calls use `asyncio.create_task()` â€” never block request handling
+- **Fallback chain**: Gemini → Rule engine (graceful degradation)
+- **Fire-and-forget**: Analytics calls use `asyncio.create_task()` — never block request handling
 
 ### Error Handling
 - `GeminiUnavailableError` is the only explicitly surfaced exception class
-- All GCP service calls (BigQuery, Pub/Sub) catch `Exception` broadly and log warnings â€” never raise
+- All GCP service calls (BigQuery, Pub/Sub) catch `Exception` broadly and log warnings — never raise
 - FastAPI's Pydantic integration returns structured 422 errors automatically
 
 ---
@@ -44,7 +44,7 @@ Run: `cd frontend && npm run lint && npm run typecheck`
 ### Component Patterns
 - All components are functional (no class components except `ErrorBoundary`)
 - Zustand store accessed via selectors to minimise re-renders: `useCarbonStore(s => s.result)`
-- Props are typed with explicit interfaces â€” no `any` or implicit returns
+- Props are typed with explicit interfaces — no `any` or implicit returns
 - Side effects in `useEffect` only where necessary (step change focus management)
 
 ### Accessibility Standard
@@ -56,7 +56,7 @@ Run: `cd frontend && npm run lint && npm run typecheck`
 ### Validation Strategy
 - Zod schema (`validators.ts`) is the single source of truth for form constraints
 - Schema mirrors backend Pydantic model field-for-field
-- `safeParse()` used everywhere â€” never `.parse()` (avoids uncaught exceptions)
+- `safeParse()` used everywhere — never `.parse()` (avoids uncaught exceptions)
 
 ---
 

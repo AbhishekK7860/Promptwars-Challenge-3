@@ -1,5 +1,5 @@
 /**
- * App â€” Main application layout with ARIA landmarks.
+ * App — Main application layout with ARIA landmarks.
  *
  * Accessibility features:
  *   - role="banner" on header
@@ -83,18 +83,18 @@ function AppContent() {
           {/* Logo */}
           <button
             onClick={reset}
-            aria-label="Carbon Footprint Platform â€” return to calculator"
+            aria-label="Carbon Footprint Platform — return to calculator"
             className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg p-1"
           >
             <span className="text-2xl" aria-hidden="true">
-              ðŸŒ
+              🌍
             </span>
             <div className="text-left">
               <span className="block text-sm font-bold text-gray-900 leading-tight">
                 ClimateIQ
               </span>
               <span className="block text-xs text-primary-600 leading-tight">
-                Understand Â· Track Â· Reduce
+                Understand · Track · Reduce
               </span>
             </div>
           </button>
@@ -127,18 +127,18 @@ function AppContent() {
               What's Your Carbon Footprint?
             </h1>
             <p className="text-primary-100 text-base sm:text-lg max-w-2xl mx-auto">
-              Enter your lifestyle data below to calculate your annual COâ‚‚e emissions, compare to
+              Enter your lifestyle data below to calculate your annual CO₂e emissions, compare to
               global benchmarks, and receive AI-powered personalised actions.
             </p>
             <div className="flex justify-center gap-6 mt-6 text-sm text-primary-200">
               <span className="flex items-center gap-1.5">
-                <span aria-hidden="true">ðŸ“Š</span> Science-backed factors
+                <span aria-hidden="true">📊</span> Science-backed factors
               </span>
               <span className="flex items-center gap-1.5">
-                <span aria-hidden="true">âœ¨</span> Gemini AI insights
+                <span aria-hidden="true">✨</span> Gemini AI insights
               </span>
               <span className="flex items-center gap-1.5">
-                <span aria-hidden="true">ðŸ”’</span> Anonymous & private
+                <span aria-hidden="true">🔒</span> Anonymous & private
               </span>
             </div>
           </div>
@@ -168,7 +168,7 @@ function AppContent() {
                 transition-colors duration-150
               "
             >
-              <span aria-hidden="true">â†</span> Back to Calculator
+              <span aria-hidden="true">←</span> Back to Calculator
             </button>
             <ResultsDisplay result={result} />
             {insights && <InsightsList insightsResponse={insights} />}
@@ -206,11 +206,11 @@ function AppContent() {
             <div>
               <h2 className="text-sm font-semibold text-gray-700 mb-2">Data Sources</h2>
               <ul className="text-xs text-gray-500 space-y-1 list-none">
-                <li>UK DEFRA 2023 â€” Transport & Home Energy factors</li>
-                <li>US EPA 2023 â€” Electricity grid emissions</li>
-                <li>ICAO Carbon Calculator â€” Aviation emissions</li>
-                <li>Our World in Data 2023 â€” Diet emissions & global average</li>
-                <li>IPCC AR6 / SR1.5 â€” Consumption & Paris target</li>
+                <li>UK DEFRA 2023 — Transport & Home Energy factors</li>
+                <li>US EPA 2023 — Electricity grid emissions</li>
+                <li>ICAO Carbon Calculator — Aviation emissions</li>
+                <li>Our World in Data 2023 — Diet emissions & global average</li>
+                <li>IPCC AR6 / SR1.5 — Consumption & Paris target</li>
               </ul>
             </div>
             <div>
@@ -223,13 +223,13 @@ function AppContent() {
             </div>
           </div>
           <div className="border-t border-gray-100 pt-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-400">
-            <span>Â© 2024 ClimateIQ</span>
+            <span>© 2024 ClimateIQ</span>
             <span className="flex items-center gap-1">
               Powered by{' '}
               <span aria-label="Google Gemini AI" className="font-medium text-gray-500">
                 Google Gemini
               </span>{' '}
-              Â·{' '}
+              ·{' '}
               <span aria-label="Google Cloud" className="font-medium text-gray-500">
                 Google Cloud
               </span>

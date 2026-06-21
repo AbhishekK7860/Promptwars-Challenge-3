@@ -13,8 +13,8 @@
 | Man-in-the-middle | HSTS: `max-age=31536000; includeSubDomains` |
 | API abuse (DDoS) | slowapi rate limiting: 30/10/20 req/min per IP |
 | Injection (JSON body) | Pydantic v2 strict field validation before any processing |
-| Path traversal | device_id regex: `^[a-zA-Z0-9_-]+$` â€” no slashes or dots |
-| Credential exposure | Application Default Credentials (ADC) â€” no secrets in code/env |
+| Path traversal | device_id regex: `^[a-zA-Z0-9_-]+$` — no slashes or dots |
+| Credential exposure | Application Default Credentials (ADC) — no secrets in code/env |
 | Excessive data exposure | API returns only computed results, never raw DB records |
 | Privacy violation | device_id is a random token; BigQuery logs exclude device_id |
 
@@ -39,7 +39,7 @@ Referrer-Policy:          strict-origin-when-cross-origin
 Permissions-Policy:       geolocation=(), microphone=(), camera=()
 ```
 
-**Implementation**: `backend/app/core/security.py` â†’ `SecurityHeadersMiddleware`
+**Implementation**: `backend/app/core/security.py` → `SecurityHeadersMiddleware`
 
 ---
 
@@ -116,8 +116,8 @@ ALTER TABLE carbon_entries ENABLE ROW LEVEL SECURITY;
 | Principle | Implementation |
 |-----------|---------------|
 | Data minimisation | Only lifestyle inputs are processed; no name/email/location |
-| Anonymous identifiers | `device_id` is `dev-{timestamp}-{random}` â€” not linked to any identity |
-| Session-scoped identity | device_id stored in `sessionStorage` â€” cleared on tab close |
+| Anonymous identifiers | `device_id` is `dev-{timestamp}-{random}` — not linked to any identity |
+| Session-scoped identity | device_id stored in `sessionStorage` — cleared on tab close |
 | BigQuery anonymisation | `log_event_async()` never receives or logs `device_id` |
 | No tracking | No analytics SDK, no cookies, no fingerprinting |
 

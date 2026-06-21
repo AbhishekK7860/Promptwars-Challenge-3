@@ -29,7 +29,7 @@ export const formatCategory = (category: string): string => {
 
 /**
  * Get or create a persistent anonymous device ID stored in sessionStorage.
- * Format: dev-{timestamp}-{random} â€” satisfies 8â€“64 char, alphanumeric + hyphens pattern.
+ * Format: dev-{timestamp}-{random} — satisfies 8–64 char, alphanumeric + hyphens pattern.
  */
 export const getDeviceId = (): string => {
   const key = 'carbon_device_id';

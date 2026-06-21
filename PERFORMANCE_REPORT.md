@@ -21,7 +21,7 @@
 **1. Pure Carbon Calculator (zero I/O)**
 - `calculate_footprint()` has no database calls, no network calls
 - All 12 arithmetic operations complete in microseconds
-- No caching needed â€” deterministic inputs produce deterministic outputs
+- No caching needed — deterministic inputs produce deterministic outputs
 
 **2. Non-blocking GCP Service Calls**
 ```python
@@ -78,7 +78,7 @@ manualChunks: {
   store: ['zustand'],
 }
 ```
-Charts are in a separate chunk â€” they only load when a result is displayed.
+Charts are in a separate chunk — they only load when a result is displayed.
 
 ### Key Frontend Optimisations
 

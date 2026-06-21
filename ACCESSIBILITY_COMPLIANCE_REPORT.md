@@ -3,7 +3,7 @@
 
 **Standard**: WCAG 2.1 Level AA  
 **Testing Tools**: jest-axe (axe-core 4.x), manual keyboard testing  
-**Status**: âœ… Compliant
+**Status**: ✅ Compliant
 
 ---
 
@@ -13,14 +13,14 @@ All 7 major components pass zero-violation axe-core scans:
 
 | Component | Test File | Result |
 |-----------|-----------|--------|
-| CarbonForm | `accessibility.test.tsx` | âœ… 0 violations |
-| CategoryChart | `accessibility.test.tsx` | âœ… 0 violations |
-| ResultsDisplay | `accessibility.test.tsx` | âœ… 0 violations |
-| InsightCard | `accessibility.test.tsx` | âœ… 0 violations |
-| InsightsList | `accessibility.test.tsx` | âœ… 0 violations |
-| HistoryChart (with data) | `accessibility.test.tsx` | âœ… 0 violations |
-| HistoryChart (empty) | `accessibility.test.tsx` | âœ… 0 violations |
-| HistoryTable | `accessibility.test.tsx` | âœ… 0 violations |
+| CarbonForm | `accessibility.test.tsx` | ✅ 0 violations |
+| CategoryChart | `accessibility.test.tsx` | ✅ 0 violations |
+| ResultsDisplay | `accessibility.test.tsx` | ✅ 0 violations |
+| InsightCard | `accessibility.test.tsx` | ✅ 0 violations |
+| InsightsList | `accessibility.test.tsx` | ✅ 0 violations |
+| HistoryChart (with data) | `accessibility.test.tsx` | ✅ 0 violations |
+| HistoryChart (empty) | `accessibility.test.tsx` | ✅ 0 violations |
+| HistoryTable | `accessibility.test.tsx` | ✅ 0 violations |
 
 ---
 
@@ -35,7 +35,7 @@ All 7 major components pass zero-violation axe-core scans:
 | 1.3.2 Meaningful Sequence | DOM order matches visual order; no CSS reordering |
 | 1.3.3 Sensory Characteristics | Status conveyed via text labels, not color alone |
 | 1.4.1 Use of Color | Error states use both color + icon (âš ) + text; benchmark bars use color + percentage text |
-| 1.4.3 Contrast (Minimum) | Primary green (#16a34a) on white: 4.7:1 âœ…; text/bg combinations all â‰¥4.5:1 |
+| 1.4.3 Contrast (Minimum) | Primary green (#16a34a) on white: 4.7:1 ✅; text/bg combinations all â‰¥4.5:1 |
 | 1.4.4 Resize Text | Responsive layout; relative font units (rem/em) |
 | 1.4.10 Reflow | Single-column layout at 320px viewport width |
 | 1.4.11 Non-text Contrast | Form borders, progress bars meet 3:1 minimum |

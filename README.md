@@ -20,11 +20,11 @@ Deploy your own instance by following the [Deployment](#deployment--vercel--cont
 
 ## Chosen Vertical: Personal Carbon Footprint
 
-This platform implements the **Understand â†’ Track â†’ Reduce** lifecycle:
+This platform implements the **Understand → Track → Reduce** lifecycle:
 
 | Pillar | What it does |
 |--------|-------------|
-| **Understand** | Users input transport, home energy, diet, and consumption data. The science-backed calculator returns a total in kg COâ‚‚e with comparisons to the 4,000 kg global average and 2,000 kg Paris 1.5Â°C target. |
+| **Understand** | Users input transport, home energy, diet, and consumption data. The science-backed calculator returns a total in kg CO₂e with comparisons to the 4,000 kg global average and 2,000 kg Paris 1.5°C target. |
 | **Track** | Every calculation snapshot is saved to Supabase PostgreSQL (linked anonymously by device ID). A trend line chart shows progress over time. |
 | **Reduce** | OpenRouter (Gemini Flash) generates 3 personalised, quantified actions targeting the user's largest emission sources. A deterministic rule engine provides instant fallback. |
 
@@ -34,19 +34,19 @@ This platform implements the **Understand â†’ Track â†’ Reduce** lifec
 
 ```
 User Inputs (transport, home, diet, consumption)
-        â”‚
-        â–¼
- Carbon Engine â”€â”€â–º per-category kg CO2e â”€â”€â–º ranked by impact size
-        â”‚                                           â”‚
-        â–¼                                           â–¼
+        │
+        ▼
+ Carbon Engine ──► per-category kg CO2e ──► ranked by impact size
+        │                                           │
+        ▼                                           ▼
  Comparison to benchmarks               Insights Generator
- (Global avg: 4,000 kg)                 â”œâ”€ OpenRouter / Gemini Flash (primary)
- (Paris target: 2,000 kg)              â”‚  â””â”€ Personalised, quantified actions
-                                       â””â”€ Rule Engine (fallback)
-                                          â””â”€ Deterministic, targets largest category
-        â”‚
-        â–¼
- Save to Supabase â”€â”€â–º analytics_events (anonymised) â”€â”€â–º event_queue
+ (Global avg: 4,000 kg)                 ├─ OpenRouter / Gemini Flash (primary)
+ (Paris target: 2,000 kg)              │  └─ Personalised, quantified actions
+                                       └─ Rule Engine (fallback)
+                                          └─ Deterministic, targets largest category
+        │
+        ▼
+ Save to Supabase ──► analytics_events (anonymised) ──► event_queue
 ```
 
 ---
@@ -59,20 +59,20 @@ User Inputs (transport, home, diet, consumption)
 | **Database** | Supabase PostgreSQL (asyncpg) |
 | **Analytics** | PostgreSQL analytics tables |
 | **Event Queue** | DB-backed event_queue table |
-| **Frontend** | React 18 Â· TypeScript Â· Vite Â· Tailwind CSS Â· Zustand Â· Zod Â· Recharts |
-| **Backend** | Python 3.11 Â· FastAPI Â· Pydantic v2 Â· slowapi Â· uvicorn |
-| **Deployment** | Vercel (frontend) Â· Docker / GHCR (backend) Â· GitHub Actions |
+| **Frontend** | React 18 · TypeScript · Vite · Tailwind CSS · Zustand · Zod · Recharts |
+| **Backend** | Python 3.11 · FastAPI · Pydantic v2 · slowapi · uvicorn |
+| **Deployment** | Vercel (frontend) · Docker / GHCR (backend) · GitHub Actions |
 
 ---
 
-## Quick Start â€” Local Development (No External Services Required)
+## Quick Start — Local Development (No External Services Required)
 
 ```bash
 # 1. Clone the repo
 git clone https://github.com/your-org/climate-iq.git
 cd climate-iq
 
-# 2. Backend â€” with feature flags disabled (in-memory fallbacks used)
+# 2. Backend — with feature flags disabled (in-memory fallbacks used)
 cd backend
 python -m venv .venv && .venv\Scripts\activate    # Windows
 # python -m venv .venv && source .venv/bin/activate  # macOS/Linux
@@ -81,10 +81,10 @@ pip install -r requirements-dev.txt
 USE_OPENROUTER=false USE_SUPABASE=false USE_ANALYTICS=false USE_EVENT_QUEUE=false \
   uvicorn app.main:app --reload --port 8000
 
-# 3. Frontend â€” in a separate terminal
+# 3. Frontend — in a separate terminal
 cd frontend
 npm install
-npm run dev   # â†’ http://localhost:5173 (proxies /api to :8000)
+npm run dev   # → http://localhost:5173 (proxies /api to :8000)
 ```
 
 ---
@@ -103,9 +103,9 @@ npm test
 
 ---
 
-## Deployment â€” Vercel + Container
+## Deployment — Vercel + Container
 
-### Frontend â†’ Vercel
+### Frontend → Vercel
 
 1. Import the repo into [vercel.com](https://vercel.com)
 2. Set build command: `cd frontend && npm ci && npm run build`
@@ -113,7 +113,7 @@ npm test
 4. Add environment secrets (see `.env.example`)
 5. Update the `/api/*` rewrite in `vercel.json` to point to your backend URL
 
-### Backend â†’ Docker / Any Container Host
+### Backend → Docker / Any Container Host
 
 ```bash
 # Build the image
@@ -148,9 +148,9 @@ Required GitHub secrets:
 Run the SQL migrations in order in your Supabase SQL Editor:
 
 ```
-migrations/001_initial_schema.sql   â€” carbon_entries table
-migrations/002_analytics_schema.sql â€” analytics_events, user_metrics, recommendation_logs
-migrations/003_event_queue_schema.sql â€” event_queue table
+migrations/001_initial_schema.sql   — carbon_entries table
+migrations/002_analytics_schema.sql — analytics_events, user_metrics, recommendation_logs
+migrations/003_event_queue_schema.sql — event_queue table
 ```
 
 Then set `SUPABASE_DB_URL` to your PostgreSQL connection string.
@@ -159,7 +159,7 @@ Then set `SUPABASE_DB_URL` to your PostgreSQL connection string.
 
 ## Privacy & Security
 
-- **No PII stored**: The `device_id` is a random session-scoped token â€” never a name, email, or real identifier.
+- **No PII stored**: The `device_id` is a random session-scoped token — never a name, email, or real identifier.
 - **Analytics never contain `device_id`**: Only aggregate stats (total_kg, diet_type, top_category).
 - **Credentials via environment variables only**: No secrets in code. See `.env.example`.
 - **Security checkpoint**: PII (SSNs, credit-card numbers) is scrubbed from AI prompts; prompt-injection attempts are blocked before reaching the LLM.
@@ -203,23 +203,23 @@ Key features:
 
 ```
 climate-iq/
-â”œâ”€â”€ backend/           FastAPI application
-â”‚   â”œâ”€â”€ app/
-â”‚   â”‚   â”œâ”€â”€ carbon/    Pure emission calculation engine
-â”‚   â”‚   â”œâ”€â”€ core/      Config, security, rate limiting
-â”‚   â”‚   â”œâ”€â”€ models/    Pydantic v2 data models
-â”‚   â”‚   â”œâ”€â”€ routes/    API endpoint handlers
-â”‚   â”‚   â””â”€â”€ services/  OpenRouter, Supabase, Analytics, EventQueue
-â”‚   â””â”€â”€ tests/         pytest test suite
-â”œâ”€â”€ frontend/          React 18 + TypeScript SPA
-â”‚   â”œâ”€â”€ src/
-â”‚   â”‚   â”œâ”€â”€ components/ Calculator, Insights, History, Shared
-â”‚   â”‚   â”œâ”€â”€ store/      Zustand state management
-â”‚   â”‚   â”œâ”€â”€ api/        Typed fetch client
-â”‚   â”‚   â””â”€â”€ utils/      Formatters and validators
-â”‚   â””â”€â”€ tests/         Vitest + jest-axe test suite
-â”œâ”€â”€ migrations/        SQL migration files for Supabase/PostgreSQL
-â”œâ”€â”€ docs/              PRD, Architecture, Judge Evidence
-â”œâ”€â”€ Dockerfile         Multi-stage build
-â””â”€â”€ .github/           GitHub Actions CI + Deploy pipelines
+├── backend/           FastAPI application
+│   ├── app/
+│   │   ├── carbon/    Pure emission calculation engine
+│   │   ├── core/      Config, security, rate limiting
+│   │   ├── models/    Pydantic v2 data models
+│   │   ├── routes/    API endpoint handlers
+│   │   └── services/  OpenRouter, Supabase, Analytics, EventQueue
+│   └── tests/         pytest test suite
+├── frontend/          React 18 + TypeScript SPA
+│   ├── src/
+│   │   ├── components/ Calculator, Insights, History, Shared
+│   │   ├── store/      Zustand state management
+│   │   ├── api/        Typed fetch client
+│   │   └── utils/      Formatters and validators
+│   └── tests/         Vitest + jest-axe test suite
+├── migrations/        SQL migration files for Supabase/PostgreSQL
+├── docs/              PRD, Architecture, Judge Evidence
+├── Dockerfile         Multi-stage build
+└── .github/           GitHub Actions CI + Deploy pipelines
 ```
