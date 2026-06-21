@@ -1,6 +1,6 @@
 # ClimateIQ
 
-![CI](https://github.com/nikhilNathwani/Hackathon-ClimateIQ/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/AbhishekK7860/Promptwars-Challenge-3/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen)
 ![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.1%20AA-brightgreen)
 ![Stack](https://img.shields.io/badge/stack-FastAPI%20%7C%20React%20%7C%20Supabase-blue)
@@ -132,8 +132,8 @@ No external services required. All services have in-memory fallbacks.
 
 ```bash
 # 1. Clone
-git clone https://github.com/nikhilNathwani/Hackathon-ClimateIQ.git
-cd Hackathon-ClimateIQ
+git clone https://github.com/AbhishekK7860/Promptwars-Challenge-3.git
+cd Promptwars-Challenge-3
 
 # 2. Backend (terminal 1)
 cd backend
@@ -255,10 +255,10 @@ Set these in the Render dashboard → Environment tab:
 Once the service status turns Live:
 
 ```
-GET  https://your-render-url.onrender.com/api/health
+GET  https://climate-iq.onrender.com/api/health
 → {"status":"healthy","services":{"openrouter":true,"supabase":true,...}}
 
-GET  https://your-render-url.onrender.com/
+GET  https://climate-iq.onrender.com/
 → React SPA loads (served by FastAPI from backend/static/)
 ```
 
