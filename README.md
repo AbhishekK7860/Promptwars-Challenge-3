@@ -1,12 +1,12 @@
 # ClimateIQ
 
-![CI](https://github.com/your-org/climate-iq/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/nikhilNathwani/Hackathon-ClimateIQ/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen)
 ![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.1%20AA-brightgreen)
 ![Stack](https://img.shields.io/badge/stack-FastAPI%20%7C%20React%20%7C%20Supabase-blue)
-![Security](https://img.shields.io/badge/secrets-env%20vars%20only-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![React](https://img.shields.io/badge/react-18.3-61dafb)
+![Docker](https://img.shields.io/badge/deployment-Docker%20%7C%20Render-black)
 
 > **Understand, Track, and Reduce** your personal carbon impact with AI-powered insights via OpenRouter.
 
@@ -14,39 +14,54 @@
 
 ## Live Demo
 
-Deploy your own instance by following the [Deployment](#deployment--vercel--container) section below.
+Deployed as a single unified Docker service on Render. The FastAPI backend serves both the API and the compiled React SPA from the same container.
 
 ---
 
-## Chosen Vertical: Personal Carbon Footprint
+## What It Does
 
-This platform implements the **Understand → Track → Reduce** lifecycle:
+ClimateIQ implements the **Understand → Track → Reduce** lifecycle:
 
 | Pillar | What it does |
 |--------|-------------|
-| **Understand** | Users input transport, home energy, diet, and consumption data. The science-backed calculator returns a total in kg CO₂e with comparisons to the 4,000 kg global average and 2,000 kg Paris 1.5°C target. |
-| **Track** | Every calculation snapshot is saved to Supabase PostgreSQL (linked anonymously by device ID). A trend line chart shows progress over time. |
-| **Reduce** | OpenRouter (Gemini Flash) generates 3 personalised, quantified actions targeting the user's largest emission sources. A deterministic rule engine provides instant fallback. |
+| **Understand** | Users input transport, home energy, diet, and consumption data. The science-backed carbon engine returns a total in kg CO₂e with comparisons to the 4,000 kg global average and 2,000 kg Paris 1.5°C target. |
+| **Track** | Every calculation is persisted to Supabase PostgreSQL, keyed anonymously by device ID. A trend-line history chart shows progress over time and survives backend restarts. |
+| **Reduce** | OpenRouter (Gemini 2.5 Flash) generates 3 personalised, quantified reduction actions targeting the user's largest emission sources. A deterministic rule engine provides instant fallback if AI is unavailable. |
 
 ---
 
-## Architecture & Decision Flow
+## Architecture
 
 ```
-User Inputs (transport, home, diet, consumption)
-        │
-        ▼
- Carbon Engine ──► per-category kg CO2e ──► ranked by impact size
-        │                                           │
-        ▼                                           ▼
- Comparison to benchmarks               Insights Generator
- (Global avg: 4,000 kg)                 ├─ OpenRouter / Gemini Flash (primary)
- (Paris target: 2,000 kg)              │  └─ Personalised, quantified actions
-                                       └─ Rule Engine (fallback)
-                                          └─ Deterministic, targets largest category
-        │
-        ▼
- Save to Supabase ──► analytics_events (anonymised) ──► event_queue
+Browser
+    │
+    ├── / (React SPA)
+    │       Served as static files by FastAPI
+    │       Blueprint Grid UI · Bento Layout · Glassmorphism
+    │
+    └── /api/* (JSON API)
+            │
+            ├── POST /api/calculate
+            │       Carbon Engine (pure Python)
+            │       Transport · Home · Diet · Consumption
+            │       → total_kg, breakdown, ranked_categories
+            │       → vs_global_average_pct, vs_paris_target_pct
+            │
+            ├── POST /api/insights
+            │       Security Checkpoint (PII scrubbing + injection detection)
+            │       → OpenRouter / Gemini 2.5 Flash (primary)
+            │       → Rule Engine (deterministic fallback)
+            │
+            ├── POST /api/entries
+            │       asyncpg → Supabase PostgreSQL (carbon_entries table)
+            │       Connection Pooler (IPv4, port 6543)
+            │
+            ├── GET  /api/entries/{device_id}
+            │       asyncpg ← Supabase PostgreSQL
+            │       Returns history ordered newest-first
+            │
+            └── GET  /api/health
+                    Returns service status map for all feature flags
 ```
 
 ---
@@ -55,36 +70,85 @@ User Inputs (transport, home, diet, consumption)
 
 | Layer | Technology |
 |---|---|
-| **AI** | OpenRouter (google/gemini-flash-1.5) |
-| **Database** | Supabase PostgreSQL (asyncpg) |
-| **Analytics** | PostgreSQL analytics tables |
-| **Event Queue** | DB-backed event_queue table |
+| **AI** | OpenRouter — `google/gemini-2.5-flash` |
+| **Database** | Supabase PostgreSQL via asyncpg connection pooler (port 6543, IPv4) |
 | **Frontend** | React 18 · TypeScript · Vite · Tailwind CSS · Zustand · Zod · Recharts |
 | **Backend** | Python 3.11 · FastAPI · Pydantic v2 · slowapi · uvicorn |
-| **Deployment** | Vercel (frontend) · Docker / GHCR (backend) · GitHub Actions |
+| **Deployment** | Docker (multi-stage) · Render (single unified service) |
+| **CI** | GitHub Actions — lint · typecheck · test · coverage · Docker build + health check |
 
 ---
 
-## Quick Start — Local Development (No External Services Required)
+## UI Design
+
+ClimateIQ uses a premium Blueprint Grid design language:
+
+- **Blueprint Grid Background** — subtle animated dot-grid with ambient depth
+- **Bento Card Layouts** — radius hierarchy: 16px cards → 12px panels → 10px inputs/buttons
+- **Ambient Cursor Glow** — requestAnimationFrame-driven CSS variable glow tracking the cursor; zero React state, zero re-renders
+- **Glassmorphism Panels** — frosted glass surfaces with backdrop-filter blur
+- **Micro-animations** — smooth transitions on all interactive elements
+- **Accessibility** — WCAG 2.1 AA compliant; full keyboard navigation; screen-reader data-table fallback for all charts; `prefers-reduced-motion` respected
+
+---
+
+## Project Structure
+
+```
+carbon-platform/
+├── Dockerfile                  Multi-stage build (Node → Python)
+├── backend/
+│   ├── app/
+│   │   ├── carbon/             Pure Python emission calculation engine
+│   │   ├── core/               Config, security headers, rate limiting
+│   │   ├── models/             Pydantic v2 data models
+│   │   ├── routes/             API endpoint handlers
+│   │   └── services/           OpenRouter, Supabase (asyncpg), Analytics, EventQueue
+│   ├── tests/                  pytest suite (101 tests)
+│   ├── requirements.txt
+│   └── requirements-dev.txt
+├── frontend/
+│   ├── src/
+│   │   ├── components/         Calculator, Insights, History, Shared
+│   │   ├── store/              Zustand state management
+│   │   ├── api/                Typed fetch client (relative /api paths)
+│   │   └── utils/              Formatters and validators
+│   └── tests/                  Vitest + jest-axe suite (57 tests)
+├── migrations/                 SQL migration files for Supabase
+│   ├── 001_initial_schema.sql  carbon_entries table
+│   ├── 002_analytics_schema.sql
+│   └── 003_event_queue_schema.sql
+├── docs/                       PRD, Architecture, Judge Evidence
+└── .github/workflows/
+    ├── ci.yml                  Lint · typecheck · test · Docker health check
+    └── deploy.yml              Build verification pipeline
+```
+
+---
+
+## Quick Start — Local Development
+
+No external services required. All services have in-memory fallbacks.
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/your-org/climate-iq.git
-cd climate-iq
+# 1. Clone
+git clone https://github.com/nikhilNathwani/Hackathon-ClimateIQ.git
+cd Hackathon-ClimateIQ
 
-# 2. Backend — with feature flags disabled (in-memory fallbacks used)
+# 2. Backend (terminal 1)
 cd backend
-python -m venv .venv && .venv\Scripts\activate    # Windows
-# python -m venv .venv && source .venv/bin/activate  # macOS/Linux
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS / Linux
 pip install -r requirements-dev.txt
 
-USE_OPENROUTER=false USE_SUPABASE=false USE_ANALYTICS=false USE_EVENT_QUEUE=false \
-  uvicorn app.main:app --reload --port 8000
+# Run with all external services disabled (uses in-memory fallbacks)
+$env:USE_OPENROUTER="false"; $env:USE_SUPABASE="false"; $env:USE_FIRESTORE="false"; $env:USE_ANALYTICS="false"; $env:USE_EVENT_QUEUE="false"; uvicorn app.main:app --reload --port 8000
 
-# 3. Frontend — in a separate terminal
+# 3. Frontend (terminal 2)
 cd frontend
 npm install
-npm run dev   # → http://localhost:5173 (proxies /api to :8000)
+npm run dev      # → http://localhost:5173 (proxies /api to :8000)
 ```
 
 ---
@@ -92,79 +156,145 @@ npm run dev   # → http://localhost:5173 (proxies /api to :8000)
 ## Running Tests
 
 ```bash
-# Backend tests with coverage
+# Backend — 101 tests, coverage enforced at ≥90%
 cd backend
 pytest --cov=app --cov-report=term -v
 
-# Frontend tests with coverage
+# Backend lint
+ruff check .
+
+# Frontend — 57 tests with v8 coverage
 cd frontend
 npm test
+
+# Frontend type check
+npm run typecheck
 ```
 
 ---
 
-## Deployment — Vercel + Container
+## Docker — Local Build & Run
 
-### Frontend → Vercel
-
-1. Import the repo into [vercel.com](https://vercel.com)
-2. Set build command: `cd frontend && npm ci && npm run build`
-3. Set output directory: `frontend/dist`
-4. Add environment secrets (see `.env.example`)
-5. Update the `/api/*` rewrite in `vercel.json` to point to your backend URL
-
-### Backend → Docker / Any Container Host
+The Dockerfile is a production-grade multi-stage build:
+- **Stage 1** — Node 20 Alpine: installs npm dependencies and runs `vite build`
+- **Stage 2** — Python 3.11 Slim: installs Python dependencies, copies `frontend/dist` into `backend/static`, runs as a non-root user
 
 ```bash
-# Build the image
+# Build
 docker build -t climate-iq .
 
-# Run locally
+# Run locally (all services disabled for testing)
 docker run -p 8080:8080 \
-  -e OPENROUTER_API_KEY=your-key \
-  -e SUPABASE_DB_URL=your-db-url \
+  -e USE_OPENROUTER=false \
+  -e USE_SUPABASE=false \
+  -e USE_FIRESTORE=false \
+  -e USE_ANALYTICS=false \
+  -e USE_EVENT_QUEUE=false \
+  -e ENVIRONMENT=development \
   climate-iq
 
-# Or push to GHCR and deploy to Railway / Render / Fly.io
-docker tag climate-iq ghcr.io/your-org/climate-iq:latest
-docker push ghcr.io/your-org/climate-iq:latest
+# Visit http://localhost:8080
+# Health check: http://localhost:8080/api/health
 ```
-
-### GitHub Actions (CI + Deploy)
-
-The `.github/workflows/` directory contains:
-- `ci.yml` — lint, typecheck, test, coverage, Docker build + health check
-- `deploy.yml` — frontend build verification, backend image to GHCR
-
-Required GitHub secrets:
-| Secret | Purpose |
-|---|---|
-| `VITE_API_BASE_URL` | Backend API URL for frontend build |
 
 ---
 
-## Database Setup (Supabase / PostgreSQL)
+## Production Deployment — Render (Single Docker Service)
 
-Run the SQL migrations in order in your Supabase SQL Editor:
+ClimateIQ is deployed as a single Docker container on Render. FastAPI serves the React SPA from `backend/static/` at runtime, eliminating the need for a separate frontend host, CORS configuration, or API proxy rewrites.
+
+### Step 1: Supabase — Database Setup
+
+Run the following migrations **in order** in your Supabase SQL Editor:
 
 ```
-migrations/001_initial_schema.sql   — carbon_entries table
-migrations/002_analytics_schema.sql — analytics_events, user_metrics, recommendation_logs
-migrations/003_event_queue_schema.sql — event_queue table
+migrations/001_initial_schema.sql    — carbon_entries table (required)
+migrations/002_analytics_schema.sql  — analytics_events table (optional)
+migrations/003_event_queue_schema.sql — event_queue table (optional)
 ```
 
-Then set `SUPABASE_DB_URL` to your PostgreSQL connection string.
+Use the **Connection Pooler** URL from your Supabase dashboard (not the direct database URL). The pooler resolves to IPv4 (port 6543), which is required for Render compatibility.
+
+**Pooler URL format:**
+```
+postgresql://postgres.PROJECT_REF:PASSWORD@aws-0-REGION.pooler.supabase.com:6543/postgres
+```
+
+### Step 2: Render — Create Web Service
+
+1. New → Web Service → connect your GitHub repository
+2. **Root Directory:** leave blank (`.`)
+3. **Runtime:** Docker (auto-detected from `Dockerfile`)
+4. **Docker Build Context:** `.`
+5. **Dockerfile Path:** `Dockerfile`
+6. **Docker Command:** leave blank (uses `CMD` from Dockerfile)
+7. **Instance Type:** Free or Starter
+8. **Health Check Path:** `/api/health`
+
+### Step 3: Environment Variables
+
+Set these in the Render dashboard → Environment tab:
+
+| Variable | Value |
+|---|---|
+| `ENVIRONMENT` | `production` |
+| `USE_SUPABASE` | `true` |
+| `USE_FIRESTORE` | `true` (backward-compatibility alias for USE_SUPABASE) |
+| `USE_OPENROUTER` | `true` |
+| `USE_GEMINI` | `true` (backward-compatibility alias for USE_OPENROUTER) |
+| `USE_ANALYTICS` | `false` |
+| `USE_BIGQUERY` | `false` |
+| `USE_EVENT_QUEUE` | `false` |
+| `USE_PUBSUB` | `false` |
+| `OPENROUTER_API_KEY` | *(your OpenRouter API key — mark as Secret)* |
+| `OPENROUTER_MODEL` | `google/gemini-2.5-flash` |
+| `SUPABASE_DB_URL` | *(your pooler URL — mark as Secret, ensure password is URL-encoded)* |
+
+### Step 4: Verify Deployment
+
+Once the service status turns Live:
+
+```
+GET  https://your-render-url.onrender.com/api/health
+→ {"status":"healthy","services":{"openrouter":true,"supabase":true,...}}
+
+GET  https://your-render-url.onrender.com/
+→ React SPA loads (served by FastAPI from backend/static/)
+```
+
+---
+
+## Database Setup Details
+
+The `carbon_entries` table is the only mandatory migration for full functionality:
+
+```sql
+-- From migrations/001_initial_schema.sql
+CREATE TABLE IF NOT EXISTS carbon_entries (
+    id                    UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+    device_id             TEXT        NOT NULL,
+    timestamp             TIMESTAMPTZ NOT NULL DEFAULT now(),
+    total_kg              FLOAT       NOT NULL CHECK (total_kg >= 0),
+    breakdown             JSONB       NOT NULL DEFAULT '{}',
+    ranked_categories     JSONB       NOT NULL DEFAULT '[]',
+    vs_global_average_pct FLOAT       NOT NULL DEFAULT 0,
+    vs_paris_target_pct   FLOAT       NOT NULL DEFAULT 0,
+    insights              JSONB       NOT NULL DEFAULT '[]'
+);
+```
+
+JSONB columns (`breakdown`, `ranked_categories`, `insights`) are serialized and deserialized natively by the asyncpg JSONB codec — no manual `json.dumps()` is applied in the application layer.
 
 ---
 
 ## Privacy & Security
 
-- **No PII stored**: The `device_id` is a random session-scoped token — never a name, email, or real identifier.
-- **Analytics never contain `device_id`**: Only aggregate stats (total_kg, diet_type, top_category).
-- **Credentials via environment variables only**: No secrets in code. See `.env.example`.
-- **Security checkpoint**: PII (SSNs, credit-card numbers) is scrubbed from AI prompts; prompt-injection attempts are blocked before reaching the LLM.
-- **Security headers**: CSP, HSTS, X-Frame-Options, Permissions-Policy applied to every response.
-- **Rate limiting**: 30/min calculate, 10/min insights, 20/min entries.
+- **No PII stored**: `device_id` is a random session-scoped token — never a name, email, or real identifier
+- **Security checkpoint**: PII (SSNs, credit-card numbers) is scrubbed from AI prompts; prompt-injection attempts are blocked before reaching the LLM
+- **Security headers**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy on every response
+- **Rate limiting**: 30/min calculate · 10/min insights · 20/min entries
+- **Non-root Docker user**: Container runs as `appuser`, not root
+- **No secrets in code**: All credentials via environment variables only — see `.env.example`
 
 ---
 
@@ -173,7 +303,7 @@ Then set `SUPABASE_DB_URL` to your PostgreSQL connection string.
 | Factor | Source |
 |--------|--------|
 | Transport (car, bus, train) | UK DEFRA 2023 |
-| Aviation (flights) | ICAO Carbon Calculator 2023 |
+| Aviation | ICAO Carbon Calculator 2023 |
 | Electricity | US EPA eGRID 2023 |
 | Natural gas | UK DEFRA 2023 |
 | Diet | Our World in Data 2023 (Poore & Nemecek 2018) |
@@ -185,41 +315,13 @@ Then set `SUPABASE_DB_URL` to your PostgreSQL connection string.
 
 ## Accessibility
 
-WCAG 2.1 AA compliant. All components tested with `jest-axe` (axe-core). See [ACCESSIBILITY_COMPLIANCE_REPORT.md](./ACCESSIBILITY_COMPLIANCE_REPORT.md).
+WCAG 2.1 AA compliant. All interactive components tested with `jest-axe` (axe-core). See [ACCESSIBILITY_COMPLIANCE_REPORT.md](./ACCESSIBILITY_COMPLIANCE_REPORT.md).
 
-Key features:
 - Skip-to-main-content link
 - All form inputs: `label` + `htmlFor` + `aria-describedby`
 - Radio groups: `fieldset` + `legend`
-- Charts: `role="img"` + screen-reader data table fallback
-- Live regions: `aria-live="polite"` on results/insights
+- Charts: `role="img"` + screen-reader data-table fallback
+- Live regions: `aria-live="polite"` on results and insights
 - Error alerts: `role="alert"` + `aria-live="assertive"`
-- Keyboard navigation: all interactive elements focusable
-- Reduced motion: `prefers-reduced-motion` respected
-
----
-
-## Project Structure
-
-```
-climate-iq/
-├── backend/           FastAPI application
-│   ├── app/
-│   │   ├── carbon/    Pure emission calculation engine
-│   │   ├── core/      Config, security, rate limiting
-│   │   ├── models/    Pydantic v2 data models
-│   │   ├── routes/    API endpoint handlers
-│   │   └── services/  OpenRouter, Supabase, Analytics, EventQueue
-│   └── tests/         pytest test suite
-├── frontend/          React 18 + TypeScript SPA
-│   ├── src/
-│   │   ├── components/ Calculator, Insights, History, Shared
-│   │   ├── store/      Zustand state management
-│   │   ├── api/        Typed fetch client
-│   │   └── utils/      Formatters and validators
-│   └── tests/         Vitest + jest-axe test suite
-├── migrations/        SQL migration files for Supabase/PostgreSQL
-├── docs/              PRD, Architecture, Judge Evidence
-├── Dockerfile         Multi-stage build
-└── .github/           GitHub Actions CI + Deploy pipelines
-```
+- Full keyboard navigation on all interactive elements
+- `prefers-reduced-motion` respected for all animations
