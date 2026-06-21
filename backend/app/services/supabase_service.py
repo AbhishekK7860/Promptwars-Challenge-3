@@ -118,11 +118,11 @@ async def save_entry(
             """,
             device_id,
             result.total_kg,
-            json.dumps(result.breakdown),
-            json.dumps(ranked_json),
+            result.breakdown,
+            ranked_json,
             result.vs_global_average_pct,
             result.vs_paris_target_pct,
-            json.dumps(insights_json),
+            insights_json,
         )
 
     doc_id: str = row["id"]
