@@ -35,9 +35,9 @@ const CustomTooltip = ({
 }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-gray-200 rounded-xl px-3 py-2 shadow-lg text-sm">
-      <p className="text-gray-500 text-xs mb-1">{label}</p>
-      <p className="font-bold text-gray-900">{formatKg(payload[0].value)} CO₂e</p>
+    <div className="bg-slate-900 border border-slate-700 rounded-[8px] px-3 py-2 shadow-xl text-sm">
+      <p className="text-slate-400 text-[10px] uppercase tracking-wider mb-1">{label}</p>
+      <p className="font-bold text-slate-100 tabular-nums tracking-wide">{formatKg(payload[0].value)} CO₂e</p>
     </div>
   );
 };
@@ -45,12 +45,12 @@ const CustomTooltip = ({
 export const HistoryChart = ({ history }: HistoryChartProps) => {
   if (history.length === 0) {
     return (
-      <div className="glass-card p-10 text-center">
-        <div className="text-5xl mb-4" aria-hidden="true">
-          📈
+      <div className="vercel-card p-10 text-center flex flex-col justify-center min-h-[300px]">
+        <div className="text-5xl mb-4 opacity-50" aria-hidden="true">
+          📊
         </div>
-        <p role="status" className="text-gray-500">
-          No history yet. Calculate your footprint to start tracking your progress over time.
+        <p role="status" className="text-slate-400">
+          No telemetry data found. Run a calculation to generate your baseline.
         </p>
       </div>
     );
@@ -63,9 +63,9 @@ export const HistoryChart = ({ history }: HistoryChartProps) => {
   }));
 
   return (
-    <div className="glass-card p-6 sm:p-8 space-y-6">
-      <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-        <span aria-hidden="true">📈</span> Footprint Trend
+    <div className="vercel-card p-6 sm:p-8 space-y-6">
+      <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2 tracking-wide uppercase">
+        <span aria-hidden="true" className="text-slate-500">📈</span> Footprint Trend
       </h3>
 
       {/* Recharts line chart */}
@@ -80,28 +80,29 @@ export const HistoryChart = ({ history }: HistoryChartProps) => {
             margin={{ top: 8, right: 16, left: 0, bottom: 0 }}
             aria-hidden="true"
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 11, fill: '#64748b' }}
-              axisLine={false}
+              tick={{ fontSize: 10, fill: '#64748b' }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
+              dy={10}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: '#64748b' }}
-              axisLine={false}
+              tick={{ fontSize: 10, fill: '#64748b', fontFamily: 'monospace' }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
               tickFormatter={(v: number) => formatKg(v)}
               width={52}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#e2e8f0', strokeWidth: 2 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }} />
             <Line
               type="monotone"
               dataKey="kg"
-              stroke="#059669"
-              strokeWidth={3}
-              dot={{ fill: '#059669', r: 4, strokeWidth: 0 }}
-              activeDot={{ r: 6, fill: '#047857', stroke: '#fff', strokeWidth: 2 }}
+              stroke="#10b981"
+              strokeWidth={2}
+              dot={{ fill: '#0f172a', stroke: '#10b981', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, fill: '#10b981', stroke: '#0f172a', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

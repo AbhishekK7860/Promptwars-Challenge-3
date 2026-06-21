@@ -43,8 +43,8 @@ class Settings(BaseSettings):
         description="OpenRouter API base URL",
     )
     OPENROUTER_MODEL: str = Field(
-        default="google/gemini-flash-1.5",
-        description="OpenRouter model identifier (e.g. google/gemini-flash-1.5)",
+        default="google/gemini-2.5-flash",
+        description="OpenRouter model identifier (e.g. google/gemini-2.5-flash)",
     )
 
     # -----------------------------------------------------------------------

@@ -27,8 +27,8 @@ export const InsightCard = ({ insight, index }: InsightCardProps) => {
     <article
       aria-label={`Insight ${index + 1}: ${categoryLabel} — ${insight.action}`}
       className="
-        glass-panel p-5
-        hover:shadow-xl hover:-translate-y-1 hover:border-primary-300 transition-all duration-300
+        vercel-panel p-5 w-full flex flex-col h-full
+        hover:shadow-vercel hover:-translate-y-0.5 hover:border-slate-700 transition-all duration-300
         animate-fade-in group
       "
     >
@@ -37,9 +37,9 @@ export const InsightCard = ({ insight, index }: InsightCardProps) => {
         <div className="flex-shrink-0 flex flex-col items-center gap-1">
           <span
             className={`
-              ${badgeColor} text-white text-xs font-bold
-              w-8 h-8 rounded-full flex items-center justify-center
-              shadow-md
+              ${badgeColor} text-white text-[10px] font-black tracking-widest
+              w-7 h-7 rounded-md flex items-center justify-center
+              shadow-[0_0_8px_rgba(16,185,129,0.3)]
             `}
             aria-label={`Priority ${insight.priority}`}
           >
@@ -51,29 +51,29 @@ export const InsightCard = ({ insight, index }: InsightCardProps) => {
         <div className="flex-1 min-w-0">
           {/* Category header */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xl" aria-hidden="true">
+            <span className="text-xl opacity-80" aria-hidden="true">
               {icon}
             </span>
-            <span className="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">
               {categoryLabel}
             </span>
           </div>
 
           {/* Action text */}
-          <p className="text-sm text-gray-700 leading-relaxed mb-3">{insight.action}</p>
+          <p className="text-sm text-slate-200 leading-relaxed mb-4 flex-1">{insight.action}</p>
 
           {/* Metrics row */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 mt-auto pt-4 border-t border-slate-800/50">
             {/* Saving */}
-            <div className="flex items-center gap-1.5 bg-primary-50 text-primary-800 rounded-lg px-3 py-1.5">
-              <span aria-hidden="true">💚</span>
-              <span className="text-xs font-semibold">Save ~{saving} CO₂e/year</span>
+            <div className="flex items-center gap-1.5 bg-primary-500/10 border border-primary-500/20 text-primary-300 rounded-[6px] px-2.5 py-1">
+              <span aria-hidden="true" className="text-[10px]">●</span>
+              <span className="text-xs font-medium tracking-wide">~{saving} <span className="opacity-70">CO₂e</span></span>
             </div>
 
             {/* Timeframe */}
-            <div className="flex items-center gap-1.5 bg-gray-50 text-gray-600 rounded-lg px-3 py-1.5">
-              <span aria-hidden="true">⏱</span>
-              <span className="text-xs">{insight.timeframe}</span>
+            <div className="flex items-center gap-1.5 bg-slate-800/50 border border-slate-700/50 text-slate-400 rounded-[6px] px-2.5 py-1">
+              <span aria-hidden="true" className="text-[10px]">⏱</span>
+              <span className="text-xs font-medium">{insight.timeframe}</span>
             </div>
           </div>
         </div>

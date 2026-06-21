@@ -18,11 +18,11 @@ interface CategoryChartProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  transport: '#065f46', // emerald-800
-  home: '#059669', // emerald-600
-  diet: '#10b981', // emerald-500
-  consumption: '#34d399', // emerald-400
-  general: '#6ee7b7', // emerald-300
+  transport: '#10b981', // emerald-500
+  home: '#34d399', // emerald-400
+  diet: '#059669', // emerald-600
+  consumption: '#06b6d4', // cyan-500
+  general: '#22d3ee', // cyan-400
 };
 
 const CustomTooltip = ({
@@ -35,9 +35,9 @@ const CustomTooltip = ({
   if (!active || !payload?.length) return null;
   const { value, payload: data } = payload[0];
   return (
-    <div className="bg-white border border-gray-200 rounded-xl px-3 py-2 shadow-lg text-sm">
-      <p className="font-semibold text-gray-900">{formatCategory(data.category)}</p>
-      <p className="text-primary-700">{formatKg(value)} CO₂e</p>
+    <div className="bg-slate-900 border border-slate-700 rounded-[8px] px-3 py-2 shadow-xl text-sm">
+      <p className="text-slate-400 text-[10px] uppercase tracking-wider mb-1">{formatCategory(data.category)}</p>
+      <p className="font-bold text-slate-100 tabular-nums tracking-wide">{formatKg(value)} CO₂e</p>
     </div>
   );
 };
@@ -66,21 +66,22 @@ export const CategoryChart = ({ breakdown: _breakdown, ranked_categories }: Cate
           >
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 12, fill: '#6b7280' }}
-              axisLine={false}
+              tick={{ fontSize: 10, fill: '#64748b' }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
+              dy={10}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: '#9ca3af' }}
-              axisLine={false}
+              tick={{ fontSize: 10, fill: '#64748b', fontFamily: 'monospace' }}
+              axisLine={{ stroke: '#334155' }}
               tickLine={false}
               tickFormatter={(v: number) => formatKg(v)}
               width={52}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f0fdf4' }} />
-            <Bar dataKey="kg" radius={[6, 6, 0, 0]} maxBarSize={64}>
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#1e293b' }} />
+            <Bar dataKey="kg" radius={[4, 4, 0, 0]} maxBarSize={48}>
               {chartData.map(entry => (
-                <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] ?? '#16a34a'} />
+                <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] ?? '#10b981'} />
               ))}
             </Bar>
           </BarChart>

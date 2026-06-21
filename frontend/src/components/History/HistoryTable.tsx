@@ -22,20 +22,20 @@ const InsightExpandedRow = ({ entry, id }: { entry: HistoryEntry; id: string }) 
     id={id}
     role="region"
     aria-label={`Insights for entry dated ${formatDate(entry.timestamp)}`}
-    className="bg-primary-50 border border-primary-100 rounded-xl p-4 mt-2 space-y-2"
+    className="bg-slate-900/50 border border-slate-800 rounded-lg p-4 mt-2 space-y-2"
   >
-    <p className="text-xs font-semibold text-primary-700 uppercase tracking-wide mb-2">
+    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
       Reduction Insights
     </p>
     {entry.insights.length === 0 ? (
-      <p className="text-sm text-gray-500">No insights saved for this entry.</p>
+      <p className="text-sm text-slate-500">No insights saved for this entry.</p>
     ) : (
-      <ol className="space-y-2 list-none">
+      <ol className="space-y-3 list-none">
         {entry.insights.map((insight, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-            <span aria-hidden="true">{getCategoryIcon(insight.category)}</span>
-            <span>{insight.action}</span>
-            <span className="ml-auto text-xs text-primary-700 font-semibold whitespace-nowrap">
+          <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
+            <span aria-hidden="true" className="opacity-80">{getCategoryIcon(insight.category)}</span>
+            <span className="flex-1 leading-relaxed">{insight.action}</span>
+            <span className="text-xs text-primary-400 font-medium whitespace-nowrap bg-primary-500/10 px-2 py-0.5 rounded-md border border-primary-500/20">
               ~{formatKg(insight.estimated_saving_kg)}/yr
             </span>
           </li>
@@ -55,41 +55,41 @@ export const HistoryTable = ({ history }: HistoryTableProps) => {
   };
 
   return (
-    <div className="glass-card overflow-hidden">
+    <div className="vercel-card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm">
           <caption className="sr-only">
             Carbon footprint history entries, ordered newest first
           </caption>
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-100">
+            <tr className="bg-slate-900 border-b border-slate-800">
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-widest"
               >
                 Date
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-right text-[10px] font-bold text-slate-500 uppercase tracking-widest"
               >
                 Total CO₂e
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:table-cell"
+                className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-widest hidden sm:table-cell"
               >
                 Top Category
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest"
               >
                 Details
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-50">
+          <tbody className="divide-y divide-slate-800/50 bg-slate-900/20">
             {history.map(entry => {
               const topCategory =
                 entry.ranked_categories?.[0]?.category ?? Object.keys(entry.breakdown)[0] ?? '—';
@@ -98,16 +98,16 @@ export const HistoryTable = ({ history }: HistoryTableProps) => {
 
               return (
                 <Fragment key={entry.id}>
-                  <tr className="hover:bg-gray-50 transition-colors duration-100">
-                    <th scope="row" className="px-4 py-3 font-medium text-gray-800 text-left">
+                  <tr className="hover:bg-slate-800/30 transition-colors duration-150">
+                    <th scope="row" className="px-4 py-3 font-medium text-slate-200 text-left tabular-nums">
                       {formatDate(entry.timestamp)}
                     </th>
-                    <td className="px-4 py-3 text-right font-bold text-gray-900 tabular-nums">
+                    <td className="px-4 py-3 text-right font-bold text-slate-50 tabular-nums">
                       {formatKg(entry.total_kg)}
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
-                      <span className="inline-flex items-center gap-1.5 text-xs bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full">
-                        <span aria-hidden="true">{getCategoryIcon(topCategory)}</span>
+                      <span className="inline-flex items-center gap-1.5 text-xs bg-slate-800/50 border border-slate-700/50 text-slate-300 px-2.5 py-1 rounded-md">
+                        <span aria-hidden="true" className="opacity-80">{getCategoryIcon(topCategory)}</span>
                         {formatCategory(topCategory)}
                       </span>
                     </td>
@@ -118,9 +118,9 @@ export const HistoryTable = ({ history }: HistoryTableProps) => {
                         aria-controls={expandId}
                         aria-label={`${isExpanded ? 'Collapse' : 'View'} insights for entry dated ${formatDate(entry.timestamp)}`}
                         className="
-                          text-xs text-primary-600 font-semibold
-                          hover:text-primary-800 focus:outline-none
-                          focus:ring-2 focus:ring-primary-500 rounded px-2 py-1
+                          text-[10px] uppercase tracking-wider text-primary-400 font-bold
+                          hover:text-primary-300 focus:outline-none
+                          focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded px-2 py-1
                           transition-colors duration-150
                         "
                       >

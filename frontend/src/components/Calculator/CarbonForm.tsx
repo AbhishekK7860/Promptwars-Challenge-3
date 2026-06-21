@@ -65,10 +65,10 @@ const InputField = ({
   const describedBy = [helper ? helperId : '', error ? errorId : ''].filter(Boolean).join(' ');
 
   return (
-    <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-slate-300">
         {label}
-        {unit && <span className="text-gray-400 font-normal ml-1">({unit})</span>}
+        {unit && <span className="text-slate-500 font-normal ml-1">({unit})</span>}
       </label>
       <input
         id={id}
@@ -82,14 +82,14 @@ const InputField = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(parseFloat(e.target.value) || 0)}
         onBlur={onBlur}
         className={`
-          w-full rounded-lg border px-3 py-2 text-sm focus:outline-none
-          focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-          transition-colors duration-150
-          ${error ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white hover:border-gray-400'}
+          w-full rounded-[10px] border px-3 py-2 text-sm focus:outline-none tabular-nums
+          focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+          transition-colors duration-150 shadow-sm
+          ${error ? 'border-red-500/50 bg-red-500/10 text-red-100' : 'border-slate-800 bg-slate-900 text-slate-50 hover:border-slate-700'}
         `}
       />
       {helper && (
-        <span id={helperId} className="text-xs text-gray-500">
+        <span id={helperId} className="text-xs text-slate-500">
           {helper}
         </span>
       )}
@@ -118,15 +118,15 @@ const SectionHeader = ({
   description: string;
   id: string;
 }) => (
-  <div className="flex items-start gap-3 mb-4 pb-3 border-b border-gray-100">
-    <span className="text-2xl" aria-hidden="true">
+  <div className="flex items-start gap-3 mb-5 pb-4 border-b border-slate-800/60">
+    <span className="text-2xl drop-shadow-md" aria-hidden="true">
       {icon}
     </span>
     <div>
-      <h2 id={id} className="text-lg font-semibold text-gray-900">
+      <h2 id={id} className="text-lg font-semibold text-slate-100 tracking-tight">
         {title}
       </h2>
-      <p className="text-sm text-gray-500">{description}</p>
+      <p className="text-sm text-slate-400 leading-relaxed">{description}</p>
     </div>
   </div>
 );
@@ -202,7 +202,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="transport-heading"
-        className="glass-card p-6"
+        className="vercel-card p-6 sm:p-8"
       >
         <SectionHeader
           id="transport-heading"
@@ -295,7 +295,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="home-heading"
-        className="glass-card p-6"
+        className="vercel-card p-6 sm:p-8"
       >
         <SectionHeader
           id="home-heading"
@@ -345,7 +345,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="lifestyle-heading"
-        className="glass-card p-6"
+        className="vercel-card p-6 sm:p-8"
       >
         <SectionHeader
           id="lifestyle-heading"
@@ -356,9 +356,9 @@ export const CarbonForm = () => {
         <div className="space-y-6">
           {/* Diet Type — radio group */}
           <fieldset>
-            <legend className="text-sm font-medium text-gray-700 mb-3">
+            <legend className="text-sm font-medium text-slate-300 mb-3">
               Diet Type
-              <span className="block text-xs font-normal text-gray-500 mt-0.5">
+              <span className="block text-xs font-normal text-slate-500 mt-0.5">
                 Select the option that best describes your typical diet
               </span>
             </legend>
@@ -387,12 +387,12 @@ export const CarbonForm = () => {
                   key={value}
                   htmlFor={`diet-type-${value}`}
                   className={`
-                    flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer
-                    transition-colors duration-150 hover:border-primary-300
+                    flex items-start gap-3 p-3 rounded-[12px] border cursor-pointer
+                    transition-all duration-200 hover:border-slate-600
                     ${
                       values.diet_type === value
-                        ? 'border-primary-500 bg-primary-50'
-                        : 'border-gray-200 bg-white'
+                        ? 'border-primary-500/50 bg-primary-500/10 shadow-[0_0_12px_rgba(16,185,129,0.1)]'
+                        : 'border-slate-800 bg-slate-900/50'
                     }
                   `}
                 >
@@ -403,12 +403,12 @@ export const CarbonForm = () => {
                     value={value}
                     checked={values.diet_type === value}
                     onChange={() => updateField('diet_type', value)}
-                    className="mt-0.5 accent-primary-600"
+                    className="mt-0.5 accent-primary-500"
                   />
                   <span className="sr-only">{label}</span>
                   <div>
-                    <span className="text-sm font-medium text-gray-900">{label}</span>
-                    <span className="block text-xs text-gray-500">{desc}</span>
+                    <span className="text-sm font-medium text-slate-200">{label}</span>
+                    <span className="block text-xs text-slate-500">{desc}</span>
                   </div>
                 </label>
               ))}
@@ -417,10 +417,10 @@ export const CarbonForm = () => {
 
           {/* Consumption Level */}
           <div className="space-y-2">
-            <label htmlFor="consumption_level" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="consumption_level" className="block text-sm font-medium text-slate-300">
               Shopping & Consumption Level
             </label>
-            <span id="consumption-helper" className="text-xs text-gray-500 block">
+            <span id="consumption-helper" className="text-xs text-slate-500 block">
               How much do you typically spend on new goods (clothes, electronics, furniture)?
             </span>
             <select
@@ -434,9 +434,9 @@ export const CarbonForm = () => {
               }
               aria-describedby="consumption-helper"
               className="
-                w-full sm:w-64 rounded-lg border border-gray-300 px-3 py-2 text-sm
-                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-                bg-white hover:border-gray-400 transition-colors duration-150
+                w-full sm:w-64 rounded-[10px] border border-slate-800 px-3 py-2 text-sm
+                focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                bg-slate-900 text-slate-50 hover:border-slate-700 transition-colors duration-150 shadow-sm
               "
             >
               <option value="low">🌿 Low — mostly second-hand, minimal new goods</option>
@@ -454,14 +454,14 @@ export const CarbonForm = () => {
         <div
           role="alert"
           aria-live="assertive"
-          className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3"
+          className="bg-red-500/10 border border-red-500/20 rounded-[12px] p-4 flex items-start gap-3 backdrop-blur-sm"
         >
-          <span className="text-red-500 text-lg" aria-hidden="true">
+          <span className="text-red-400 text-lg" aria-hidden="true">
             ⚠️
           </span>
           <div>
-            <p className="text-sm font-medium text-red-800">Calculation failed</p>
-            <p className="text-sm text-red-600">{storeError}</p>
+            <p className="text-sm font-medium text-red-200">Calculation failed</p>
+            <p className="text-sm text-red-400/80">{storeError}</p>
           </div>
         </div>
       )}
@@ -478,13 +478,13 @@ export const CarbonForm = () => {
             isCalculating ? 'Calculating your carbon footprint...' : 'Calculate my carbon footprint'
           }
           className="
-            flex items-center gap-3 bg-gradient-to-r from-primary-600 to-secondary-500 text-white
-            px-8 py-4 rounded-2xl text-base font-semibold
-            hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-95
-            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-            disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:active:scale-100
-            transition-all duration-300 shadow-md shadow-primary-600/20
-            min-w-[220px] justify-center
+            flex items-center gap-3 bg-primary-600 text-white
+            px-8 py-3 rounded-[10px] text-sm font-semibold
+            hover:bg-primary-500 hover:shadow-[0_0_16px_rgba(16,185,129,0.3)]
+            active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-950
+            disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100
+            transition-all duration-200 border border-primary-500/30
+            min-w-[220px] justify-center tracking-wide
           "
         >
           {isCalculating ? (
