@@ -27,9 +27,9 @@ export const InsightCard = ({ insight, index }: InsightCardProps) => {
     <article
       aria-label={`Insight ${index + 1}: ${categoryLabel} — ${insight.action}`}
       className="
-        bg-white rounded-2xl border border-gray-100 shadow-sm p-5
-        hover:shadow-md hover:border-primary-200 transition-all duration-200
-        animate-fade-in
+        glass-panel p-5
+        hover:shadow-xl hover:-translate-y-1 hover:border-primary-300 transition-all duration-300
+        animate-fade-in group
       "
     >
       <div className="flex items-start gap-4">

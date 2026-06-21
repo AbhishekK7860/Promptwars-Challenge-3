@@ -88,15 +88,20 @@ export const ResultsDisplay = ({ result }: ResultsDisplayProps) => {
       className="space-y-6 animate-slide-up"
     >
       {/* Total Footprint Hero */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
-        <h2 id="results-heading" className="text-xl font-semibold text-gray-600 mb-2">
-          Your Annual Carbon Footprint
-        </h2>
-        <div className="flex items-end justify-center gap-2 mb-3">
-          <span className="text-6xl font-black text-gray-900 tabular-nums">
-            {formatKg(result.total_kg)}
-          </span>
-          <span className="text-2xl text-gray-400 mb-2">CO₂e</span>
+      <div className="glass-card p-10 text-center relative overflow-hidden">
+        {/* Decorative background flare */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-100/40 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10">
+          <h2 id="results-heading" className="text-lg font-semibold text-gray-500 mb-3 tracking-wide uppercase">
+            Your Annual Carbon Footprint
+          </h2>
+          <div className="flex flex-col items-center justify-center gap-1 mb-6">
+            <span className="text-7xl sm:text-8xl font-black tabular-nums bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-500 drop-shadow-sm">
+              {formatKg(result.total_kg)}
+            </span>
+            <span className="text-xl font-medium text-gray-400 mt-2 tracking-wide">CO₂e</span>
+          </div>
         </div>
         <span
           className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold ${colorClass} ${bgClass}`}
@@ -106,8 +111,8 @@ export const ResultsDisplay = ({ result }: ResultsDisplayProps) => {
       </div>
 
       {/* Benchmark Comparisons */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
-        <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
+      <div className="glass-card p-6 sm:p-8 space-y-6">
+        <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
           <span aria-hidden="true">📊</span> How You Compare
         </h3>
         <ComparisonBar
@@ -130,8 +135,8 @@ export const ResultsDisplay = ({ result }: ResultsDisplayProps) => {
       </div>
 
       {/* Category Chart */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
+      <div className="glass-card p-6 sm:p-8">
+        <h3 className="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2">
           <span aria-hidden="true">🔍</span> Breakdown by Category
         </h3>
         <CategoryChart breakdown={result.breakdown} ranked_categories={result.ranked_categories} />
@@ -150,12 +155,12 @@ export const ResultsDisplay = ({ result }: ResultsDisplayProps) => {
                 : 'Get personalised carbon reduction insights powered by Google Gemini AI'
             }
             className="
-              flex items-center gap-3 bg-gradient-to-r from-primary-600 to-primary-500
+              flex items-center gap-3 bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500
               text-white px-8 py-4 rounded-2xl text-base font-semibold
-              hover:from-primary-700 hover:to-primary-600 active:scale-95
+              hover:shadow-xl hover:-translate-y-1 active:translate-y-0 active:scale-95
               focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-              disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100
-              transition-all duration-200 shadow-lg shadow-primary-600/25 min-w-[260px] justify-center
+              disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:active:scale-100
+              transition-all duration-300 shadow-lg shadow-primary-600/30 min-w-[280px] justify-center
             "
           >
             {isLoadingInsights ? (

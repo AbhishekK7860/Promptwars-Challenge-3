@@ -202,7 +202,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="transport-heading"
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+        className="glass-card p-6"
       >
         <SectionHeader
           id="transport-heading"
@@ -295,7 +295,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="home-heading"
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+        className="glass-card p-6"
       >
         <SectionHeader
           id="home-heading"
@@ -345,7 +345,7 @@ export const CarbonForm = () => {
       {/* ---------------------------------------------------------------- */}
       <section
         aria-labelledby="lifestyle-heading"
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+        className="glass-card p-6"
       >
         <SectionHeader
           id="lifestyle-heading"
@@ -478,12 +478,12 @@ export const CarbonForm = () => {
             isCalculating ? 'Calculating your carbon footprint...' : 'Calculate my carbon footprint'
           }
           className="
-            flex items-center gap-3 bg-primary-600 text-white
+            flex items-center gap-3 bg-gradient-to-r from-primary-600 to-secondary-500 text-white
             px-8 py-4 rounded-2xl text-base font-semibold
-            hover:bg-primary-700 active:scale-95
+            hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-95
             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-            disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100
-            transition-all duration-200 shadow-lg shadow-primary-600/25
+            disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:active:scale-100
+            transition-all duration-300 shadow-md shadow-primary-600/20
             min-w-[220px] justify-center
           "
         >

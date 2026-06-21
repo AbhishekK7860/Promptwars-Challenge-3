@@ -45,7 +45,7 @@ const CustomTooltip = ({
 export const HistoryChart = ({ history }: HistoryChartProps) => {
   if (history.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
+      <div className="glass-card p-10 text-center">
         <div className="text-5xl mb-4" aria-hidden="true">
           📈
         </div>
@@ -63,8 +63,8 @@ export const HistoryChart = ({ history }: HistoryChartProps) => {
   }));
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-      <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
+    <div className="glass-card p-6 sm:p-8 space-y-6">
+      <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
         <span aria-hidden="true">📈</span> Footprint Trend
       </h3>
 
@@ -80,28 +80,28 @@ export const HistoryChart = ({ history }: HistoryChartProps) => {
             margin={{ top: 8, right: 16, left: 0, bottom: 0 }}
             aria-hidden="true"
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0fdf4" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 11, fill: '#9ca3af' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: '#9ca3af' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(v: number) => formatKg(v)}
               width={52}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#e2e8f0', strokeWidth: 2 }} />
             <Line
               type="monotone"
               dataKey="kg"
-              stroke="#16a34a"
-              strokeWidth={2.5}
-              dot={{ fill: '#16a34a', r: 4, strokeWidth: 0 }}
-              activeDot={{ r: 6, fill: '#15803d' }}
+              stroke="#059669"
+              strokeWidth={3}
+              dot={{ fill: '#059669', r: 4, strokeWidth: 0 }}
+              activeDot={{ r: 6, fill: '#047857', stroke: '#fff', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

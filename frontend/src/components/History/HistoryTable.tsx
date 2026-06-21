@@ -55,7 +55,7 @@ export const HistoryTable = ({ history }: HistoryTableProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+    <div className="glass-card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm">
           <caption className="sr-only">

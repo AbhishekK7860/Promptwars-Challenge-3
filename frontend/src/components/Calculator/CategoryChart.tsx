@@ -18,11 +18,11 @@ interface CategoryChartProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  transport: '#15803d',
-  home: '#16a34a',
-  diet: '#22c55e',
-  consumption: '#4ade80',
-  general: '#86efac',
+  transport: '#065f46', // emerald-800
+  home: '#059669', // emerald-600
+  diet: '#10b981', // emerald-500
+  consumption: '#34d399', // emerald-400
+  general: '#6ee7b7', // emerald-300
 };
 
 const CustomTooltip = ({

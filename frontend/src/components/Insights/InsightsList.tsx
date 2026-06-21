@@ -29,7 +29,7 @@ export const InsightsList = ({ insightsResponse }: InsightsListProps) => {
       className="space-y-5 animate-slide-up"
     >
       {/* Header */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div className="glass-card p-6">
         <div className="flex items-start justify-between flex-wrap gap-3">
           <div>
             <h2 id="insights-heading" className="text-xl font-bold text-gray-900 mb-1">
